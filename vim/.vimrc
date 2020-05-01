@@ -1,14 +1,17 @@
 " Better copy & paste, press F2 before paste
 set pastetoggle=<F2>
 set clipboard=unnamed
-" Use ctrl+C to copy visual selection into macos clipboard
+" Use ctrl+C to copy visual selection into MAC OS clipboard
 vmap <C-c> :w !pbcopy<CR><CR>
 
 " Set the leader key to ,
 let mapleader = ","
 
-" Set colors suitable for dark backgroud
-set background=dark
+" Show the command in the last line of the screen
+set showcmd
+
+" Normal behavior for backspace
+set backspace=indent,eol,start
 
 " Not compatible with vi
 set nocompatible
@@ -19,19 +22,26 @@ filetype plugin on
 " Do not create swap files
 set noswapfile
 
+" highlight the result
+:set hlsearch
+" use leader key + esc to clear the highlight
+nnoremap <leader><esc> :noh<return><esc>
+
+" Show line number
+set number
 "Automatically change between relative and absolute number
-:set number relativenumber
-:augroup numbertoggle
-:  autocmd!
-:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-:augroup END
+" :set number relativenumber
+" :augroup numbertoggle
+" :  autocmd!
+" :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+" :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+" :augroup END
 
 " turn hybrid line numbers on
 ":set number relativenumber
 ":set nu rnu
 
-" Smart indentation
+" Smart indentation (with comments # etc)
 set smartindent
 
 " Continue the same indentation over new line
@@ -41,14 +51,10 @@ set autoindent
 set ruler
 
 " Disable arrow keys
-noremap  <Up> ""
-noremap! <Up> <Esc>
-noremap  <Down> ""
-noremap! <Down> <Esc>
-noremap  <Left> ""
-noremap! <Left> <Esc>
-noremap  <Right> ""
-noremap! <Right> <Esc>
+noremap <Up> <nop>
+noremap <Down> <nop>
+noremap <Left> <nop>
+noremap <Right> <nop>
 
 " Automatically add closing symbol
 "'inoremap ( ()<left>
@@ -57,8 +63,8 @@ noremap! <Right> <Esc>
 "'inoremap { {}<left>
 "'inoremap [ []<left>
 
-" Find files easily
-set path+=**
+" Use Tab to show the possible matches in the command line (and switches
+" between the matches)
 set wildmenu
 
 " Tab management---------- 
@@ -73,16 +79,15 @@ set shiftround
 set expandtab
 
 " easier moving of code blocks (do not escape visual mode)
-vnoremap < <gv  " better indentation
-vnoremap > >gv  " better indentation
+vnoremap < <gv
+vnoremap > >gv
 
 " my shortcut
-set showcmd
 " to delete without copying into the buffer
 xnoremap <leader>p "_dP
 noremap <leader>d "_d
 
-" to replace the word, inside of parethesis etc byt the current buffer
+" to replace the word, inside of parethesis etc by the current buffer
 noremap <leader>w viwp
 noremap <leader>" vi"p
 noremap <leader>' vi'p
@@ -100,15 +105,34 @@ noremap <leader>] vi]p
 set rtp+=/usr/local/opt/fzf
 nnoremap <c-p> :FZF<cr>
 
+" Fugitive keymaps (as in oh-my-zsh)
+nnoremap <leader>gst :Gstatus<CR>
+
+" Fugitive Conflict Resolution
+nnoremap <leader>gd :Gvdiff<CR>
+nnoremap gdh :diffget //2<CR>
+nnoremap gdl :diffget //3<CR>
+
 " Setup Pathogen to manage your plugins
 call pathogen#infect()
+Helptags
 
 " Set the default path, and the markdown synthax for vimwiki
 let g:vimwiki_list = [{'path': '~/Documents/notes',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
+" TODO finish this
+" hi link VimwikiHeader2 pandocBlockQuoteLeader1
+" hi link VimwikiHeader3 pandocBlockQuoteLeader3
+" hi link VimwikiLink helpHyperTextJump
+
 " Color scheme
 let g:solarized_termtrans=1
 syntax enable
 colorscheme solarized
-
+" Set the background accordingly to the current mac os mode (dark or light)
+if system("defaults read -g AppleInterfaceStyle") =~ '^Dark'
+  set background=dark
+else
+  set background=light
+endif
