@@ -4,7 +4,7 @@ function virtualenv_prompt_info(){
     # The function change the prompt by adding the active python env. It handles both conda and venv environment
     # Get conda Env
     if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
-        venv="(conda:${CONDA_DEFAULT_ENV})"
+        venv="(${CONDA_DEFAULT_ENV})"
         separator=" "
     else
         # In case you don't have one activated

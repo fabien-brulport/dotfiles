@@ -7,7 +7,7 @@
 5. Install [zsh-synthax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) package in `~/.oh-my-zsh/custom/plugins`. With the solarized theme, the suggestions will have the same colour as the command already written, to solve that copy `color_patch.zsh` in `~/.oh-my-zsh/custom/`.
 6. In `~/.zshrc` add the following plugins
 ```bash
-plugins=(git brew python zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git python zsh-autosuggestions zsh-syntax-highlighting)
 ```
 7. Install [FZF](https://github.com/junegunn/fzf), a fuzzy finder that can be used in `zsh` and `Vim`. The installer should add this line at the end of the `~./zshrc`
 ```bash

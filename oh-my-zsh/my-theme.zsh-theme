@@ -1,9 +1,9 @@
 # To put in ~/.oh-my-zsh/custom/themes
 
 # Change the symbol if user is root
-local user_symbol="$"
+local user_symbol="➤"
 if [[ $(print -P "%#") =~ "#" ]]; then
-    user_symbol = "#"
+    user_symbol = " #"
 fi
 
 # Define the symbols used when calling git_prompt_info
@@ -29,5 +29,5 @@ ZSH_THEME_GIT_COMMITS_AHEAD_SUFFIX="↗%b"
 ZSH_THEME_GIT_COMMITS_BEHIND_PREFIX=" %B"
 ZSH_THEME_GIT_COMMITS_BEHIND_SUFFIX="↘%b"
 
-PROMPT='╭─%B$(virtualenv_prompt_info)%b%(!.%{$fg[red]%}.%{$fg[green]%})%~$reset_color$(git_prompt_info)$(git_prompt_status)$reset_color$(git_commits_ahead)$(git_commits_behind)
-╰─ %B${user_symbol}%b '
+PROMPT='╭─$(virtualenv_prompt_info)%(!.%{$fg[red]%}.%{$fg[green]%})%~$reset_color$(git_prompt_info)$(git_prompt_status)$reset_color$(git_commits_ahead)$(git_commits_behind)
+╰─${user_symbol} '
