@@ -136,3 +136,5 @@ if system("defaults read -g AppleInterfaceStyle") =~ '^Dark'
 else
   set background=light
 endif
+" Aslo, use leader + t to toggle between the light and dark background mode
+call togglebg#map("<leader>t")
