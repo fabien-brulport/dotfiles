@@ -29,9 +29,9 @@ ARROW_BOTTOM_LINE="%{$fg[blue]%}╰─${user_symbol}%{$reset_color%}"
 # Variable to define how the path is print
 MY_ZSH_PATH="%{$fg[blue]%}%~%{$reset_color%}"
 if [[ -z "$SSH_CLIENT" ]]; then
-        PROMPT_HOST=""
+    PROMPT_HOST=""
 else
-        PROMPT_HOST="%{%F{3}%}%n%{$reset_color%}@%{%F{3}%}%m%{$reset_color%} "
+    PROMPT_HOST="%{%F{3}%}%n%{$reset_color%}@%{%F{3}%}%m%{$reset_color%} "
 fi
 
 # Finally, build the prompt
