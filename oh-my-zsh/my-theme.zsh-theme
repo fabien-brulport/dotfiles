@@ -27,8 +27,13 @@ ARROW_UPPER_LINE="%{$fg[blue]%}╭─%{$reset_color%}"
 ARROW_BOTTOM_LINE="%{$fg[blue]%}╰─${user_symbol}%{$reset_color%}"
 
 # Variable to define how the path is print
-MY_ZSH_PATH="%{$fg[green]%}%~%{$reset_color%}"
+MY_ZSH_PATH="%{$fg[blue]%}%~%{$reset_color%}"
+if [[ -z "$SSH_CLIENT" ]]; then
+        PROMPT_HOST=""
+else
+        PROMPT_HOST="%{%F{3}%}%n%{$reset_color%}@%{%F{3}%}%m%{$reset_color%} "
+fi
 
 # Finally, build the prompt
-PROMPT='$ARROW_UPPER_LINE$(virtualenv_prompt_info)$MY_ZSH_PATH$(git_prompt_info)$(git_commits_ahead)$(git_commits_behind)
+PROMPT='$ARROW_UPPER_LINE$(virtualenv_prompt_info)$PROMPT_HOST$MY_ZSH_PATH$(git_prompt_info)$(git_commits_ahead)$(git_commits_behind)
 $ARROW_BOTTOM_LINE '
