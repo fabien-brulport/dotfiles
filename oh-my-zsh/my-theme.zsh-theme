@@ -35,5 +35,5 @@ else
 fi
 
 # Finally, build the prompt
-PROMPT='$ARROW_UPPER_LINE$(virtualenv_prompt_info)$PROMPT_HOST$MY_ZSH_PATH$(git_prompt_info)$(git_commits_ahead)$(git_commits_behind)
+PROMPT='$ARROW_UPPER_LINE$(virtualenv_prompt_info) $PROMPT_HOST$MY_ZSH_PATH$(git_prompt_info)$(git_commits_ahead)$(git_commits_behind)
 $ARROW_BOTTOM_LINE '

@@ -16,7 +16,7 @@ function virtualenv_prompt_info(){
         # Strip out the path and just leave the env name
         venv="${venv}${separator}(venv:"${VIRTUAL_ENV##*/}")"
     fi
-    [[ -n "$venv" ]] && echo " $venv "
+    [[ -n "$venv" ]] && echo " $venv"
 }
 
 # disable the default virtualenv prompt change because it is handled by the function above
