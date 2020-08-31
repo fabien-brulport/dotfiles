@@ -1,6 +1,6 @@
 " Better copy & paste, press F2 before paste
 set pastetoggle=<F2>
-set clipboard=unnamed
+
 " Use ctrl+C to copy visual selection into MAC OS clipboard
 vmap <C-c> :w !pbcopy<CR><CR>
 
