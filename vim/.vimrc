@@ -83,17 +83,26 @@ vnoremap < <gv
 vnoremap > >gv
 
 " my shortcut
-" to delete without copying into the buffer
+" to delete without copying into the register 0
 xnoremap <leader>p "_dP
 noremap <leader>d "_d
 
-" to replace the word, inside of parethesis etc by the current buffer
+" to replace the word, inside of parethesis etc by the current register 0
 noremap <leader>w viwp
 noremap <leader>" vi"p
 noremap <leader>' vi'p
 noremap <leader>) vi)p
 noremap <leader>} vi}p
 noremap <leader>] vi]p
+
+" to replace the word, inside of parethesis etc by the current register 0, and do
+" not copy the new word in the register 0
+noremap <leader><leader>w viw"_dP
+noremap <leader><leader>" vi""_dP
+noremap <leader><leader>' vi'"_dP
+noremap <leader><leader>) vi)"_dP
+noremap <leader><leader>} vi}"_dP
+noremap <leader><leader>] vi]"_dP
 
 
 " Show whitespace
