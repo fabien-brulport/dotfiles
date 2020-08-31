@@ -11,3 +11,5 @@ cp ~/.vimrc vim
 # Tmux
 cp ~/.tmux.conf tmux
 
+# PyCharm
+cp ~/.ideavimrc pycharm

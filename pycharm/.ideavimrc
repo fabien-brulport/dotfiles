@@ -1,0 +1,34 @@
+set surround
+
+" Set the leader key to ,
+let mapleader = ","
+
+nmap <leader>a :action GotoFile<cr>
+nmap <leader>b :action GotoDeclaration<cr>
+nmap <leader>r :action RenameElement<cr>
+nmap <leader>f :action FindInPath<cr>
+nmap <leader>e :action RecentFiles<cr>
+nmap <leader>q :action Back<cr>
+nmap <leader>s :action Forward<cr>
+
+" to delete without copying into the register 0
+xnoremap <leader>p "_dP
+noremap <leader>d "_d
+
+" to replace the word, inside of parethesis etc by the current register 0
+noremap <leader>w viwp
+noremap <leader>" vi"p
+noremap <leader>' vi'p
+noremap <leader>) vi)p
+noremap <leader>} vi}p
+noremap <leader>] vi]p
+
+" to replace the word, inside of parethesis etc by the current register 0,
+and do
+" not copy the new word in the register 0
+noremap <leader><leader>w viw"_dP
+noremap <leader><leader>" vi""_dP
+noremap <leader><leader>' vi'"_dP
+noremap <leader><leader>) vi)"_dP
+noremap <leader><leader>} vi}"_dP
+noremap <leader><leader>] vi]"_dP

@@ -19,3 +19,5 @@ function_check_diff ~/.vimrc vim/.vimrc
 # Tmux
 function_check_diff ~/.tmux.conf tmux/.tmux.conf
 
+# PyCharm
+function_check_diff ~/.ideavimrc pycharm/.ideavimrc
