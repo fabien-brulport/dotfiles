@@ -5,7 +5,7 @@ set pastetoggle=<F2>
 vmap <C-c> :w !pbcopy<CR><CR>
 
 " Set the leader key to ,
-let mapleader = ","
+let mapleader = " "
 
 " Show the command in the last line of the screen
 set showcmd
@@ -21,6 +21,9 @@ filetype plugin on
 
 " Do not create swap files
 set noswapfile
+
+" Return to last edit position when opening files
+autocmd BufReadPost * silent! normal! g`"zv
 
 " highlight the result
 :set hlsearch
@@ -112,7 +115,12 @@ noremap <leader><leader>] vi]"_dP
 
 " Fzf plugin
 set rtp+=/usr/local/opt/fzf
-nnoremap <c-p> :FZF<cr>
+nnoremap <C-P> :GFiles<CR>
+nnoremap <leader><C-P> :Files<CR>
+nnoremap <leader>f :Ag<CR>
+nnoremap <leader>e :Buffers<CR>
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9 } }
+let $FZF_DEFAULT_OPTS="--layout reverse"
 
 " Fugitive keymaps (as in oh-my-zsh)
 nnoremap <leader>gst :Gstatus<CR>
@@ -136,14 +144,16 @@ let g:vimwiki_list = [{'path': '~/Documents/notes',
 " hi link VimwikiLink helpHyperTextJump
 
 " Color scheme
-let g:solarized_termtrans=1
 syntax enable
+let g:solarized_termtrans=1
 colorscheme solarized
+" highlight Comment cterm=italic gui=italic
+
+let $BAT_THEME="Solarized (light)"
 " Set the background accordingly to the current mac os mode (dark or light)
 if system("defaults read -g AppleInterfaceStyle") =~ '^Dark'
   set background=dark
 else
   set background=light
 endif
-" Aslo, use leader + t to toggle between the light and dark background mode
-call togglebg#map("<leader>t")
+" Aslo, use <F5> to toggle between the light and dark background mode

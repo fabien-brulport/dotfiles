@@ -8,11 +8,6 @@ function_check_diff () {
     fi
 }
 
-# Oh-My-Zsh
-function_check_diff ~/.oh-my-zsh/custom/conda_venv_prompt.zsh oh-my-zsh/conda_venv_prompt.zsh
-function_check_diff ~/.oh-my-zsh/custom/color_patch.zsh oh-my-zsh/color_patch.zsh
-function_check_diff ~/.oh-my-zsh/custom/themes/my-theme.zsh-theme oh-my-zsh/my-theme.zsh-theme
-
 # Vim
 function_check_diff ~/.vimrc vim/.vimrc
 
@@ -21,3 +16,7 @@ function_check_diff ~/.tmux.conf tmux/.tmux.conf
 
 # PyCharm
 function_check_diff ~/.ideavimrc pycharm/.ideavimrc
+
+# Alacritty
+function_check_diff ~/.config/alacritty/alacritty.yml alacritty/alacritty.yml
+function_check_diff ~/.config/alacritty/toggle_dark_light.py alacritty/toggle_dark_light.py 
