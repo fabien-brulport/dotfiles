@@ -12,3 +12,6 @@ cp ~/.ideavimrc pycharm
 # Alacritty
 cp ~/.config/alacritty/alacritty.yml alacritty
 cp ~/.config/alacritty/toggle_dark_light.py alacritty
+
+# Starship
+cp ~/.config/starship.toml starship

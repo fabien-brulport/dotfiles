@@ -1,0 +1,64 @@
+format = """
+[╭─](blue) \
+$username\
+$hostname\
+$shlvl\
+$kubernetes\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$hg_branch\
+$docker_context\
+$package\
+$cmake\
+$dart\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$golang\
+$helm\
+$java\
+$julia\
+$nim\
+$nodejs\
+$ocaml\
+$perl\
+$php\
+$purescript\
+$python\
+$ruby\
+$rust\
+$swift\
+$terraform\
+$zig\
+$nix_shell\
+$conda\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$env_var\
+$crystal\
+$cmd_duration\
+$custom\
+$line_break\
+$lua\
+$jobs\
+$battery\
+$time\
+$status\
+[╰─](blue)$character"""
+
+[directory]
+style="bold blue"
+truncation_symbol = "…/"
+
+[character]
+success_symbol = "[➤](blue)"
+error_symbol = "[➤](bold red)"
+
+[gcloud]
+disabled = true
