@@ -28,19 +28,20 @@ def toggle_color_scheme():
     available_color_schemes = list(config["schemes"].keys())
 
     color_scheme_index = available_color_schemes.index(current_color_scheme)
-    color_scheme_index = \
-        (color_scheme_index + 1) % len(available_color_schemes)
+    color_scheme_index = (color_scheme_index + 1) % len(available_color_schemes)
 
     lines[colors_line_index] = COLOR_SCHEME_LINE_TEMPLATE.format(
-        available_color_schemes[color_scheme_index])
+        available_color_schemes[color_scheme_index]
+    )
 
     with open(CONFIG_FILE_PATH, "w") as config_file:
         for line in lines:
             config_file.write(line)
 
+
 def toggle_highlight_style():
     actual_color = os.environ()
 
+
 if __name__ == "__main__":
     toggle_color_scheme()
-

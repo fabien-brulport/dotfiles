@@ -4,6 +4,10 @@ set pastetoggle=<F2>
 " Use ctrl+C to copy visual selection into MAC OS clipboard
 vmap <C-c> :w !pbcopy<CR><CR>
 
+" Window manegement with control Z
+map <C-Z> <Nop>
+nnoremap <C-Z> <C-W>
+
 " Set the leader key to ,
 let mapleader = " "
 
@@ -122,13 +126,30 @@ nnoremap <leader>e :Buffers<CR>
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9 } }
 let $FZF_DEFAULT_OPTS="--layout reverse"
 
+" Jedi plugin
+let g:jedi#popup_on_dot = 0
+autocmd FileType python setlocal completeopt-=preview
+
+" Black
+autocmd BufWritePre *.py execute ':Black'
+
+" Git Gutter
+function! GitStatus()
+  let [a,m,r] = GitGutterGetHunkSummary()
+  return printf('+%d ~%d -%d', a, m, r)
+endfunction
+set statusline+=%{GitStatus()}
+set updatetime=250
+
 " Fugitive keymaps (as in oh-my-zsh)
 nnoremap <leader>gst :Gstatus<CR>
+nnoremap <leader>gcmsg :Git commit -m
+nnoremap <leader>gc :Git commit<CR>
 
 " Fugitive Conflict Resolution
 nnoremap <leader>gd :Gvdiff<CR>
-nnoremap gdh :diffget //2<CR>
-nnoremap gdl :diffget //3<CR>
+" nnoremap gdh :diffget //2<CR>
+" nnoremap gdl :diffget //3<CR>
 
 " Setup Pathogen to manage your plugins
 call pathogen#infect()
