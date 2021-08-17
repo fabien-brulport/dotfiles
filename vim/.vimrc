@@ -4,11 +4,11 @@ set pastetoggle=<F2>
 " Use ctrl+C to copy visual selection into MAC OS clipboard
 vmap <C-c> :w !pbcopy<CR><CR>
 
-" Window manegement with control Z
+" Window management with control Z
 map <C-Z> <Nop>
 nnoremap <C-Z> <C-W>
 
-" Set the leader key to ,
+" Set the leader key to space
 let mapleader = " "
 
 " Show the command in the last line of the screen
@@ -117,8 +117,31 @@ noremap <leader><leader>] vi]"_dP
 "" autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 "" au InsertLeave * match ExtraWhitespace /\s\+$/
 
+" Code to automatically install vim-plug
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Plugin list
+call plug#begin()
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'davidhalter/jedi-vim'
+Plug 'dense-analysis/ale'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'altercation/vim-colors-solarized'
+Plug 'tpope/vim-surround'
+call plug#end()
+
 " Fzf plugin
-set rtp+=/usr/local/opt/fzf
+if has("mac")
+  set rtp+=/usr/local/opt/fzf
+else
+  set rtp+=~/.fzf
+endif
 nnoremap <C-P> :GFiles<CR>
 nnoremap <leader><C-P> :Files<CR>
 nnoremap <leader>f :Ag<CR>
@@ -151,13 +174,14 @@ nnoremap <leader>gd :Gvdiff<CR>
 " nnoremap gdh :diffget //2<CR>
 " nnoremap gdl :diffget //3<CR>
 
-" Setup Pathogen to manage your plugins
-call pathogen#infect()
-Helptags
-
 " Set the default path, and the markdown synthax for vimwiki
-let g:vimwiki_list = [{'path': '~/Documents/notes',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
+" let g:vimwiki_list = [{'path': '~/Documents/notes',
+"                       \ 'syntax': 'markdown', 'ext': '.md'}]
+
+" ALE plugin
+let g:ale_linters = {'python': ['flake8']}
+" For both ALE and vim-gutter: place the signs into the columns numbers
+set signcolumn=number
 
 " TODO finish this
 " hi link VimwikiHeader2 pandocBlockQuoteLeader1
@@ -168,13 +192,15 @@ let g:vimwiki_list = [{'path': '~/Documents/notes',
 syntax enable
 let g:solarized_termtrans=1
 colorscheme solarized
-" highlight Comment cterm=italic gui=italic
 
 let $BAT_THEME="Solarized (light)"
 " Set the background accordingly to the current mac os mode (dark or light)
-if system("defaults read -g AppleInterfaceStyle") =~ '^Dark'
-  set background=dark
-else
-  set background=light
+if has("mac")
+  if system("defaults read -g AppleInterfaceStyle") =~ '^Dark'
+    set background=dark
+  else
+    set background=light
+  endif
 endif
 " Aslo, use <F5> to toggle between the light and dark background mode
+"call togglebg#map("<leader>t")
