@@ -40,6 +40,9 @@ autocmd BufReadPost * silent! normal! g`"zv
 " use leader key + esc to clear the highlight
 nnoremap <leader><esc> :noh<return><esc>
 
+" Never show the tabline
+:set showtabline=0
+
 " Show line number
 set number
 "Automatically change between relative and absolute number
