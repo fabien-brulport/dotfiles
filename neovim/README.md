@@ -7,6 +7,10 @@ sudo apt-get update
 sudo apt-get install neovim
 ```
 
+```
+mkdir -p ~/.config/nvim
+ln -s ~/dotfiles/neovim/init.vim ~/.config/nvim/init.vim
+```
 
 # Create a Python 3
 
