@@ -1,8 +1,8 @@
 " Needed for nvim
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
-let g:python3_host_prog = "/workspace/neovimvenv/bin/python"
-let g:black_virtualenv = "/workspace/neovimvenv"
+let g:python3_host_prog = "/Users/fbrulport/miniconda3/envs/neovim/bin/python"
+let g:black_virtualenv = "/Users/fbrulport/miniconda3/envs/neovim"
 
 " Better copy & paste, press F2 before paste
 set pastetoggle=<F2>
@@ -18,7 +18,7 @@ nnoremap <C-Z> <C-W>
 let mapleader = " "
 
 " Show the command in the last line of the screen
-set showcmd
+" set showcmd
 
 " Normal behavior for backspace
 set backspace=indent,eol,start
@@ -190,9 +190,21 @@ nnoremap <leader>gd :Gvdiff<CR>
 
 " Neomake (linter)
 let g:neomake_python_enabled_makers = ['flake8']
+let g:neomake_python_flake8_maker = {
+    \ 'exe': '/Users/fbrulport/miniconda3/envs/neovim/bin/flake8',
+    \ 'args': ['--format=default', '--extend-ignore=E501, E203, W503', '--per-file-ignores=__init__.py:F401'],
+    \ 'errorformat':
+    \ '%A%f:%l:%c: %t%n %m,' .
+    \ '%A%f:%l: %t%n %m,' .
+    \ '%-G%.%#',
+    \ 'postprocess': function('neomake#makers#ft#python#Flake8EntryProcess'),
+    \ 'short_name': 'fl8',
+    \ 'output_stream': 'stdout',
+    \ 'filter_output': function('neomake#makers#ft#python#FilterPythonWarnings'),
+    \ }
 call neomake#configure#automake('nrwi', 500)
 " For both neomake and vim-gutter: place the signs into the columns numbers
-" set signcolumn=number
+set signcolumn=number
 
 " TODO finish this
 " hi link VimwikiHeader2 pandocBlockQuoteLeader1
