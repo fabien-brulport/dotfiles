@@ -23,3 +23,6 @@ function_check_diff ~/.config/alacritty/toggle_dark_light.py alacritty/toggle_da
 
 # Starship
 function_check_diff ~/.config/starship.toml starship/starship.toml
+
+# Neovim
+function_check_diff ~/.config/nvim/init.vim neovim/init.vim
