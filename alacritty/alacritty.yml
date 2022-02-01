@@ -172,61 +172,187 @@ font:
 #draw_bold_text_with_bright_colors: false
 # Schemes
 schemes:
-  solarized_dark: &solarized_dark
-# Default colors
-    primary:
-      background: '0x002b36'
-      foreground: '0x839496'
+  # solarized_dark: &solarized_dark
+# # Default colors
+  #   primary:
+  #     background: '0x002b36'
+  #     foreground: '0x839496'
 
-# Normal colors
-    normal:
-      black:   '0x073642'
-      red:     '0xdc322f'
-      green:   '0x859900'
-      yellow:  '0xb58900'
-      blue:    '0x268bd2'
-      magenta: '0xd33682'
-      cyan:    '0x2aa198'
-      white:   '0xeee8d5'
+# # Normal colors
+  #   normal:
+  #     black:   '0x073642'
+  #     red:     '0xdc322f'
+  #     green:   '0x859900'
+  #     yellow:  '0xb58900'
+  #     blue:    '0x268bd2'
+  #     magenta: '0xd33682'
+  #     cyan:    '0x2aa198'
+  #     white:   '0xeee8d5'
 
-# Bright colors
-    bright:
-      black:   '0x002b36'
-      red:     '0xcb4b16'
-      green:   '0x586e75'
-      yellow:  '0x657b83'
-      blue:    '0x839496'
-      magenta: '0x6c71c4'
-      cyan:    '0x93a1a1'
-      white:   '0xfdf6e3'
-  solarized_light: &solarized_light
+# # Bright colors
+  #   bright:
+  #     black:   '0x002b36'
+  #     red:     '0xcb4b16'
+  #     green:   '0x586e75'
+  #     yellow:  '0x657b83'
+  #     blue:    '0x839496'
+  #     magenta: '0x6c71c4'
+  #     cyan:    '0x93a1a1'
+  #     white:   '0xfdf6e3'
+  # solarized_light: &solarized_light
+  #   # Default colors
+  #   primary:
+  #     background: '0xfdf6e3'
+  #     foreground: '0x586e75'
+  #   # Normal colors
+  #   normal:
+  #     black:   '0x073642'
+  #     red:     '0xdc322f'
+  #     green:   '0x859900'
+  #     yellow:  '0xb58900'
+  #     blue:    '0x268bd2'
+  #     magenta: '0xd33682'
+  #     cyan:    '0x2aa198'
+  #     white:   '0xeee8d5'
+
+  #   # Bright colors
+  #   bright:
+  #     black:   '0x002b36'
+  #     red:     '0xcb4b16'
+  #     green:   '0x586e75'
+  #     yellow:  '0x657b83'
+  #     blue:    '0x839496'
+  #     magenta: '0x6c71c4'
+  #     cyan:    '0x93a1a1'
+  #     white:   '0xfdf6e3'
+
+  # catppuccin: &catppuccin
+  #   # Default colors
+  #   primary:
+  #     background: '#1E1E28'
+  #     foreground: '#DADAE8'
+  
+  #   # Colors the cursor will use if `custom_cursor_colors` is true
+  #   cursor:
+  #     text: '#1E1E28'
+  #     cursor: '#B1E3AD'
+  
+  #   # Normal colors
+  #   normal:
+  #     black:   '#6E6C7E'
+  #     red:     '#E38C8F'
+  #     green:   '#B1E3AD'
+  #     yellow:  '#EBDDAA'
+  #     blue:    '#A4B9EF'
+  #     magenta: '#C6AAE8'
+  #     cyan:    '#E5B4E2'
+  #     white:   '#DADAE8'
+  
+  #   # Bright colors
+  #   bright:
+  #     black:   '#6E6C7E'
+  #     red:     '#E38C8F'
+  #     green:   '#B1E3AD'
+  #     yellow:  '#EBDDAA'
+  #     blue:    '#A4B9EF'
+  #     magenta: '#C6AAE8'
+  #     cyan:    '#E5B4E2'
+  #     white:   '#DADAE8'
+  
+  #   indexed_colors:
+  #     - { index: 16, color: '#F2CECF' }
+  #     - { index: 17, color: '#3E4058' }
+
+  gruvlight: &gruvlight
     # Default colors
     primary:
-      background: '0xfdf6e3'
-      foreground: '0x586e75'
+      # hard contrast: background = '#f9f5d7'
+      background: '#fbf1c7'
+      # soft contrast: background = '#f2e5bc'
+      foreground: '#3c3836'
+  
     # Normal colors
     normal:
-      black:   '0x073642'
-      red:     '0xdc322f'
-      green:   '0x859900'
-      yellow:  '0xb58900'
-      blue:    '0x268bd2'
-      magenta: '0xd33682'
-      cyan:    '0x2aa198'
-      white:   '0xeee8d5'
-
+      black:   '#fbf1c7'
+      red:     '#cc241d'
+      green:   '#98971a'
+      yellow:  '#d79921'
+      blue:    '#458588'
+      magenta: '#b16286'
+      cyan:    '#689d6a'
+      white:   '#7c6f64'
+  
     # Bright colors
     bright:
-      black:   '0x002b36'
-      red:     '0xcb4b16'
-      green:   '0x586e75'
-      yellow:  '0x657b83'
-      blue:    '0x839496'
-      magenta: '0x6c71c4'
-      cyan:    '0x93a1a1'
-      white:   '0xfdf6e3'
+      black:   '#928374'
+      red:     '#9d0006'
+      green:   '#79740e'
+      yellow:  '#b57614'
+      blue:    '#076678'
+      magenta: '#8f3f71'
+      cyan:    '#427b58'
+      white:   '#3c3836'
 
-colors: *solarized_light
+  gruvdark: &gruvdark
+    primary:
+      # hard contrast background - '#1d2021'
+      background:        &gruvbox_dark_bg '#282828'
+      # soft contrast background - '#32302f'
+      foreground:        '#ebdbb2'
+      bright_foreground: '#fbf1c7'
+      dim_foreground:    '#a89984'
+    cursor:
+      text:   CellBackground
+      cursor: CellForeground
+    vi_mode_cursor:
+      text:   CellBackground
+      cursor: CellForeground
+    # search:
+    #   matches:
+    #     foreground: '#000000'
+    #     background: '#ffffff'
+    #   focused_match:
+    #    foreground: CellBackground
+    #    background: CellForeground
+    #   bar:
+    #     background: ''
+    #     foreground: ''
+    # line_indicator:
+    #   foreground: None
+    #   background: None
+    selection:
+      text:       CellBackground
+      background: CellForeground
+    bright:
+      black:   '#928374'
+      red:     '#fb4934'
+      green:   '#b8bb26'
+      yellow:  '#fabd2f'
+      blue:    '#83a598'
+      magenta: '#d3869b'
+      cyan:    '#8ec07c'
+      white:   '#ebdbb2'
+    normal:
+      black:   *gruvbox_dark_bg
+      red:     '#cc241d'
+      green:   '#98971a'
+      yellow:  '#d79921'
+      blue:    '#458588'
+      magenta: '#b16286'
+      cyan:    '#689d6a'
+      white:   '#a89984'
+    dim:
+      black:   '#32302f'
+      red:     '#9d0006'
+      green:   '#79740e'
+      yellow:  '#b57614'
+      blue:    '#076678'
+      magenta: '#8f3f71'
+      cyan:    '#427b58'
+      white:   '#928374'
+    # indexed_colors: []
+
+colors: *gruvdark
 
     # Bright and dim foreground colors
     #
@@ -397,9 +523,9 @@ live_config_reload: true
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
 shell:
-  program: /usr/local/bin/zsh
+  program: /bin/zsh
   args:
-    - --login
+    - -l
 
 # Startup directory
 #
