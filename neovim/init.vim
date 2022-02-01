@@ -1,12 +1,15 @@
 " Needed for nvim
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
-let g:python3_env = "/Users/fbrulport/.pyenv/versions/3.7.11/envs/neovim"
-let g:python3_host_prog = "/Users/fbrulport/.pyenv/versions/3.7.11/envs/neovim/bin/python"
-let g:black_virtualenv = "/Users/fbrulport/.pyenv/versions/3.7.11/envs/neovim"
+let g:python3_env = "/Users/fbrulport/.config/nvim/venv"
+let g:python3_host_prog = "/Users/fbrulport/.config/nvim/venv/bin/python"
+let g:black_virtualenv = "/Users/fbrulport/.config/nvim/venv"
 
 " Better copy & paste, press F2 before paste
 set pastetoggle=<F2>
+
+" Use Esc to go in normal mode in terminal
+:tnoremap <Esc> <C-\><C-n>
 
 " Use ctrl+C to copy visual selection into MAC OS clipboard
 vmap <C-c> :w !pbcopy<CR><CR>
@@ -109,12 +112,20 @@ endif
 
 " Plugin list
 call plug#begin()
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'davidhalter/jedi-vim'
-Plug 'neomake/neomake'
+Plug 'neovim/nvim-lspconfig'
+" Completion
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'L3MON4D3/LuaSnip'
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'airblade/vim-gitgutter'
-Plug 'altercation/vim-colors-solarized'
+Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -122,25 +133,136 @@ Plug 'tpope/vim-commentary'
 Plug 'christoomey/vim-sort-motion'
 Plug 'christoomey/vim-system-copy'
 Plug 'psf/black', { 'branch': 'stable' }
-Plug 'inkarkat/vim-ReplaceWithRegister'
+" Plug 'inkarkat/vim-ReplaceWithRegister'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 call plug#end()
 
-" Fzf plugin
-if has("mac")
-  set rtp+=/usr/local/opt/fzf
-else
-  set rtp+=~/.fzf
-endif
-nnoremap <C-P> :GFiles<CR>
-nnoremap <leader><C-P> :Files<CR>
-nnoremap <leader>f :Ag<CR>
-nnoremap <leader>e :Buffers<CR>
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9 } }
-let $FZF_DEFAULT_OPTS="--layout reverse"
+set completeopt=menu,menuone,noselect
+" LUA config
+lua << EOF
+-- Setup nvim-cmp.
+local cmp = require'cmp'
 
-" Jedi plugin
-let g:jedi#popup_on_dot = 0
-autocmd FileType python setlocal completeopt-=preview
+cmp.setup({
+  snippet = {
+  -- REQUIRED - you must specify a snippet engine
+  expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+  end,
+  },
+  mapping = {
+    ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+    ['<C-e>'] = cmp.mapping({
+        i = cmp.mapping.abort(),
+        c = cmp.mapping.close(),
+      }),
+    ['<C-y>'] = cmp.mapping(
+      cmp.mapping.confirm {
+        behavior = cmp.ConfirmBehavior.Insert,
+        select = true,
+      },
+      { "i", "c" }
+    ),
+  },
+ --  completion = {
+ --      autocomplete = false
+ --  },
+  sources = cmp.config.sources({
+    { name = "nvim_lsp", max_item_count = 5 },
+    { name = "path"},
+    { name = "buffer", keyword_length = 5 },
+  })
+})
+
+-- LSP config
+local nvim_lsp = require('lspconfig')
+local configs = require('lspconfig/configs')
+local nvim_command = vim.api.nvim_command
+local util = require('lspconfig/util')
+local path = util.path
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+
+  -- Show diagnostic when hover
+  nvim_command('autocmd CursorHold <buffer> lua vim.diagnostic.open_float({focus = false})')
+
+end
+
+-- Find python venv
+local function get_python_path(workspace)
+  -- Use activated virtualenv.
+  if vim.env.VIRTUAL_ENV then
+    return path.join(vim.env.VIRTUAL_ENV, 'bin', 'python')
+  end
+
+  -- Find and use virtualenv via poetry in workspace directory.
+  -- It might not be in the workspace thus the recursive search
+  local match = vim.fn.globpath(workspace, '**/poetry.lock')
+  if match ~= '' then
+    wd = path.dirname(match)
+    local venv = vim.fn.trim(vim.fn.system('cd ' .. wd .. ' && poetry env info -p && cd -'))
+    return path.join(venv, 'bin', 'python')
+  end
+
+  -- Fallback to system Python.
+  return exepath('python3') or exepath('python') or 'python'
+end
+
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+require'lspconfig'.pyright.setup{
+    on_attach = on_attach,
+    before_init = function(_, config)
+      config.settings.python.pythonPath = get_python_path(config.root_dir)
+    end,
+    flags = {
+      debounce_text_changes = 150,
+    },
+   capabilities = capabilities,
+}
+
+-- do not show the diagnostic at the end of the line:w
+vim.diagnostic.config({
+  virtual_text = false,
+})
+
+-- Telescope plugin
+require('telescope').setup {}
+require('telescope').load_extension('fzf')
+
+-- Treesitter
+require'nvim-treesitter.configs'.setup { highlight = { enable = true } }
+EOF
+" Telescope key bindings
+nnoremap <C-P> <cmd>lua require('telescope.builtin').git_files()<cr>
+nnoremap <leader>pf <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>pw <cmd>lua require('telescope.builtin').grep_string()<cr>
+nnoremap <leader>pg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>pb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>pc <cmd>lua require('telescope.builtin').command_history()<cr>
+nnoremap gr <cmd>lua require('telescope.builtin').lsp_references()<cr>
+nnoremap gd <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
+nnoremap <leader>gb <cmd>lua require('telescope.builtin').git_branches()<cr>
+
+" nvim-cmp
+" inoremap <C-n> <Cmd>lua require('cmp').complete()<CR>
 
 " Black (uncomment first line to execute black on save)
 " autocmd BufWritePre *.py execute ':Black'
@@ -165,47 +287,36 @@ nnoremap <leader>gd :Gvdiff<CR>
 " nnoremap gdh :diffget //2<CR>
 " nnoremap gdl :diffget //3<CR>
 
-" Neomake (linter)
-let g:neomake_rst_enabled_makers = []
-let g:neomake_python_enabled_makers = ['flake8']
-let g:neomake_python_flake8_maker = {
-    \ 'exe': '/Users/fbrulport/.pyenv/versions/3.7.11/envs/neovim/bin/flake8',
-    \ 'args': ['--format=default', '--extend-ignore=E501, E203, W503', '--per-file-ignores=__init__.py:F401'],
-    \ 'errorformat':
-    \ '%A%f:%l:%c: %t%n %m,' .
-    \ '%A%f:%l: %t%n %m,' .
-    \ '%-G%.%#',
-    \ 'postprocess': function('neomake#makers#ft#python#Flake8EntryProcess'),
-    \ 'short_name': 'fl8',
-    \ 'output_stream': 'stdout',
-    \ 'filter_output': function('neomake#makers#ft#python#FilterPythonWarnings'),
-    \ }
-call neomake#configure#automake('nrwi', 500)
-" For both neomake and vim-gutter: place the signs into the columns numbers
+" For linter and vim-gutter: place the signs into the columns numbers
 set signcolumn=number
 
 " Color scheme
 syntax enable
-let g:solarized_termtrans=1
-colorscheme solarized
+" " For Solarized
+" let g:solarized_termtrans=1
+" colorscheme solarized
+" " For Gruvbox
+autocmd vimenter * ++nested colorscheme gruvbox
+set termguicolors
 
 " Set the background accordingly to the current mac os mode (dark or light)
 set background=light
-let $BAT_THEME="Solarized (light)"
 if has("mac")
   if system("defaults read -g AppleInterfaceStyle") =~ '^Dark'
     set background=dark
-    let $BAT_THEME="Solarized (dark)"
   endif
 endif
-" Aslo, use <F5> to toggle between the light and dark background mode
-call togglebg#map("")
-function! MyToggleBG()
-  :ToggleBG
-  if ($BAT_THEME == 'Solarized (light)')
-    let $BAT_THEME="Solarized (dark)"
-  else
-    let $BAT_THEME="Solarized (light)"
-  endif
-endfunction
-nnoremap <leader>t :call MyToggleBG()<CR>
+
+if exists("*ToggleBackground") == 0
+	function ToggleBackground()
+		if &background == "dark"
+			set background=light
+		else
+			set background=dark
+		endif
+	endfunction
+
+	command BG call ToggleBackground()
+endif
+
+nnoremap <leader>t :call ToggleBackground()<CR>
