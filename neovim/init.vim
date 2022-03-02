@@ -98,6 +98,11 @@ vnoremap > >gv
 " reload init.vim
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
+" Mapping for quickfix list
+nnoremap <leader>cn :cnext<CR>
+nnoremap <leader>cp :cprevious<CR>
+nnoremap <leader>cc :cclose<CR>
+
 " Show whitespace
 " MUST be inserted BEFORE the colorscheme command
 "" autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
@@ -125,7 +130,6 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'airblade/vim-gitgutter'
-Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -135,6 +139,9 @@ Plug 'christoomey/vim-system-copy'
 Plug 'psf/black', { 'branch': 'stable' }
 " Plug 'inkarkat/vim-ReplaceWithRegister'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'yamatsum/nvim-cursorline'
+Plug 'f-person/auto-dark-mode.nvim'
+Plug 'ellisonleao/gruvbox.nvim'
 call plug#end()
 
 set completeopt=menu,menuone,noselect
@@ -249,17 +256,31 @@ require('telescope').load_extension('fzf')
 
 -- Treesitter
 require'nvim-treesitter.configs'.setup { highlight = { enable = true } }
+
+-- Auto Dark Mode
+local auto_dark_mode = require('auto-dark-mode')
+
+auto_dark_mode.setup({
+	update_interval = 1000,
+	set_dark_mode = function()
+		vim.api.nvim_set_option('background', 'dark')
+	end,
+	set_light_mode = function()
+		vim.api.nvim_set_option('background', 'light')
+	end,
+})
+auto_dark_mode.init()
 EOF
+
 " Telescope key bindings
 nnoremap <C-P> <cmd>lua require('telescope.builtin').git_files()<cr>
-nnoremap <leader>pf <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>pw <cmd>lua require('telescope.builtin').grep_string()<cr>
-nnoremap <leader>pg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>pb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>pc <cmd>lua require('telescope.builtin').command_history()<cr>
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fw <cmd>lua require('telescope.builtin').grep_string()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fc <cmd>lua require('telescope.builtin').command_history()<cr>
 nnoremap gr <cmd>lua require('telescope.builtin').lsp_references()<cr>
 nnoremap gd <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
-nnoremap <leader>gb <cmd>lua require('telescope.builtin').git_branches()<cr>
 
 " nvim-cmp
 " inoremap <C-n> <Cmd>lua require('cmp').complete()<CR>
@@ -277,10 +298,9 @@ set updatetime=250
 " uncomment to show the number of diff in status line
 " set statusline+=%{GitStatus()}
 
-" Fugitive keymaps (as in oh-my-zsh)
-nnoremap <leader>gst :Git<CR>
-nnoremap <leader>gcmsg :Git commit -m
-nnoremap <leader>gc :Git commit<CR>
+" Fugitive keymaps
+nnoremap <leader>gg :vertical Git<CR>
+nnoremap <leader>gc :vertical Gclog<CR>
 
 " Fugitive Conflict Resolution
 nnoremap <leader>gd :Gvdiff<CR>
@@ -296,27 +316,5 @@ syntax enable
 " let g:solarized_termtrans=1
 " colorscheme solarized
 " " For Gruvbox
-autocmd vimenter * ++nested colorscheme gruvbox
 set termguicolors
-
-" Set the background accordingly to the current mac os mode (dark or light)
-set background=light
-if has("mac")
-  if system("defaults read -g AppleInterfaceStyle") =~ '^Dark'
-    set background=dark
-  endif
-endif
-
-if exists("*ToggleBackground") == 0
-	function ToggleBackground()
-		if &background == "dark"
-			set background=light
-		else
-			set background=dark
-		endif
-	endfunction
-
-	command BG call ToggleBackground()
-endif
-
-nnoremap <leader>t :call ToggleBackground()<CR>
+colorscheme gruvbox
