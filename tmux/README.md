@@ -1,5 +1,21 @@
 # Tmux
 
+## For local machine
+
+### Conf
 ```
-ln -s ~/dotfiles/tmux/.tmux_remote.conf ~/.tmux.conf
+cp tmux.conf ~/.tmux.conf
+```
+
+### Binaries
+```
+mkdir -p ~/.local/bin
+cp tmux-session-menu ~/.local/bin
+cp tmux-sessionizer ~/.local/bin
+```
+## For remote machines
+
+### Conf
+```
+scp tmux_remote.conf <machin-ip>:~/.tmux.conf
 ```
