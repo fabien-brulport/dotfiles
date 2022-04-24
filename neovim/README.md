@@ -1,25 +1,30 @@
+# NeoVim
 
-# Installation
-
+## Installation
 ```
 sudo add-apt-repository ppa:neovim-ppa/stable
 sudo apt-get update
 sudo apt-get install neovim
 ```
 
+## Install [vim-plug](https://github.com/junegunn/vim-plug)
+```
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+```
+
+## Configuration
 ```
 mkdir -p ~/.config/nvim
-ln -s ~/dotfiles/neovim/init.vim ~/.config/nvim/init.vim
-# or
-cp neovim/init.vim ~/.config/nvim/init.vim
+cp init.vim ~/.config/nvim/init.vim
 ```
 
-# Create a Python 3
+## Create a Python 3 venv
+Create a venv with `neovim`, `black` and `flake8`.
 
-Create a venv with `neovim`, `jedi`, `black` and `flake8`.
-
-
-Update to the path of the env
 ```
-let g:python3_host_prog = "/workspace/neovimvenv/bin/python"
+cd ~/.config/nvim/
+python -m venv venv
+source venv/bin/activate
+pip install neovim black flake8
 ```
