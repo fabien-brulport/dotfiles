@@ -1,1 +1,5 @@
 # Vim
+
+```
+cp .vimrc ~/.vimrc
+```
