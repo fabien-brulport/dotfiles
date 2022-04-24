@@ -103,18 +103,6 @@ nnoremap <leader>cn :cnext<CR>
 nnoremap <leader>cp :cprevious<CR>
 nnoremap <leader>cc :cclose<CR>
 
-" Show whitespace
-" MUST be inserted BEFORE the colorscheme command
-"" autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-"" au InsertLeave * match ExtraWhitespace /\s\+$/
-
-" Code to automatically install vim-plug
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
 " Plugin list
 call plug#begin()
 Plug 'neovim/nvim-lspconfig'
@@ -148,19 +136,19 @@ set completeopt=menu,menuone,noselect
 " LUA config
 lua << EOF
 -- Setup nvim-cmp.
-local cmp = require'cmp'
+local cmp = require('cmp')
 
 cmp.setup({
   snippet = {
-  -- REQUIRED - you must specify a snippet engine
-  expand = function(args)
-      require('luasnip').lsp_expand(args.body)
-  end,
+    expand = function(args)
+        require('luasnip').lsp_expand(args.body)
+    end,
   },
   mapping = {
+    ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item()),
+    ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item()),
     ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
     ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<C-e>'] = cmp.mapping({
         i = cmp.mapping.abort(),
         c = cmp.mapping.close(),
@@ -173,13 +161,10 @@ cmp.setup({
       { "i", "c" }
     ),
   },
- --  completion = {
- --      autocomplete = false
- --  },
   sources = cmp.config.sources({
     { name = "nvim_lsp", max_item_count = 5 },
     { name = "path"},
-    { name = "buffer", keyword_length = 5 },
+    { name = "buffer", max_item_count = 5 },
   })
 })
 
@@ -233,7 +218,7 @@ local function get_python_path(workspace)
   return exepath('python3') or exepath('python') or 'python'
 end
 
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 require'lspconfig'.pyright.setup{
     on_attach = on_attach,
     before_init = function(_, config)
@@ -245,13 +230,23 @@ require'lspconfig'.pyright.setup{
    capabilities = capabilities,
 }
 
--- do not show the diagnostic at the end of the line:w
+-- do not show the diagnostic at the end of the line
 vim.diagnostic.config({
   virtual_text = false,
 })
 
 -- Telescope plugin
-require('telescope').setup {}
+require('telescope').setup {
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                       -- the default case_mode is "smart_case"
+    }
+  }
+}
 require('telescope').load_extension('fzf')
 
 -- Treesitter
@@ -270,6 +265,19 @@ auto_dark_mode.setup({
 	end,
 })
 auto_dark_mode.init()
+
+require('nvim-cursorline').setup {
+  cursorline = {
+    enable = true,
+    timeout = 1000,
+    number = false,
+  },
+  cursorword = {
+    enable = true,
+    min_length = 3,
+    hl = { underline = true },
+  }
+}
 EOF
 
 " Telescope key bindings
@@ -281,9 +289,6 @@ nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fc <cmd>lua require('telescope.builtin').command_history()<cr>
 nnoremap gr <cmd>lua require('telescope.builtin').lsp_references()<cr>
 nnoremap gd <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
-
-" nvim-cmp
-" inoremap <C-n> <Cmd>lua require('cmp').complete()<CR>
 
 " Black (uncomment first line to execute black on save)
 " autocmd BufWritePre *.py execute ':Black'
