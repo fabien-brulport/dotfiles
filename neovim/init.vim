@@ -5,6 +5,57 @@ let g:python3_env = "/Users/fbrulport/.config/nvim/venv"
 let g:python3_host_prog = "/Users/fbrulport/.config/nvim/venv/bin/python"
 let g:black_virtualenv = "/Users/fbrulport/.config/nvim/venv"
 
+lua << EOF
+local fn = vim.fn
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if fn.empty(fn.glob(install_path)) > 0 then
+  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+end
+
+return require('packer').startup(function(use)
+  -- My plugins here
+  use 'neovim/nvim-lspconfig'
+  -- Completion
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'L3MON4D3/LuaSnip'
+
+  use 'nvim-lua/plenary.nvim'
+  use 'nvim-telescope/telescope.nvim'
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use 'jose-elias-alvarez/null-ls.nvim'
+  use 'airblade/vim-gitgutter'
+  use 'tpope/vim-fugitive'
+  use 'tpope/vim-surround'
+  use 'tpope/vim-repeat'
+  use 'tpope/vim-commentary'
+  use 'christoomey/vim-sort-motion'
+  use 'christoomey/vim-system-copy'
+  -- Plug 'inkarkat/vim-ReplaceWithRegister'
+  -- Markdown preview: install without yarn or npm
+  use({
+      "iamcco/markdown-preview.nvim",
+      run = function() vim.fn["mkdp#util#install"]() end,
+  })
+
+  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
+  use 'yamatsum/nvim-cursorline'
+  use 'preservim/vimux'
+  use 'vim-test/vim-test'
+  use 'f-person/auto-dark-mode.nvim'
+  use 'ellisonleao/gruvbox.nvim'
+
+  -- Automatically set up your configuration after cloning packer.nvim
+  -- Put this at the end after all plugins
+  -- if packer_bootstrap then
+  --   require('packer').sync()
+  -- end
+end)
+EOF
+
 " Use Esc to go in normal mode in terminal
 :tnoremap <Esc> <C-\><C-n>
 
@@ -107,37 +158,6 @@ nnoremap <leader>ev :edit $MYVIMRC<CR>
 nnoremap <leader>cn :cnext<CR>
 nnoremap <leader>cp :cprevious<CR>
 nnoremap <leader>cc :cclose<CR>
-
-" Plugin list
-call plug#begin()
-Plug 'neovim/nvim-lspconfig'
-" Completion
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'L3MON4D3/LuaSnip'
-
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'jose-elias-alvarez/null-ls.nvim'
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-commentary'
-Plug 'christoomey/vim-sort-motion'
-Plug 'christoomey/vim-system-copy'
-" Plug 'inkarkat/vim-ReplaceWithRegister'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'yamatsum/nvim-cursorline'
-Plug 'preservim/vimux'
-Plug 'vim-test/vim-test'
-Plug 'f-person/auto-dark-mode.nvim'
-Plug 'ellisonleao/gruvbox.nvim'
-call plug#end()
 
 set completeopt=menu,menuone,noselect
 " LUA config
@@ -286,7 +306,7 @@ require('nvim-cursorline').setup {
 
 require("null-ls").setup({
   sources = {
-    require("null-ls").builtins.formating.black,
+    require("null-ls").builtins.formatting.black,
   },
 })
 EOF
