@@ -5,9 +5,6 @@ let g:python3_env = "/Users/fbrulport/.config/nvim/venv"
 let g:python3_host_prog = "/Users/fbrulport/.config/nvim/venv/bin/python"
 let g:black_virtualenv = "/Users/fbrulport/.config/nvim/venv"
 
-" Better copy & paste, press F2 before paste
-set pastetoggle=<F2>
-
 " Use Esc to go in normal mode in terminal
 :tnoremap <Esc> <C-\><C-n>
 
@@ -91,12 +88,20 @@ set shiftround
 " Convert tab to spaces
 set expandtab
 
+set updatetime=250
+
+" For linter and vim-gutter: place the signs into the columns numbers
+set signcolumn=number
+
 " easier moving of code blocks (do not escape visual mode)
 vnoremap < <gv
 vnoremap > >gv
 
 " reload init.vim
 nnoremap <leader>sv :source $MYVIMRC<CR>
+
+" edit init.vim
+nnoremap <leader>ev :edit $MYVIMRC<CR>
 
 " Mapping for quickfix list
 nnoremap <leader>cn :cnext<CR>
@@ -117,6 +122,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
@@ -124,10 +130,11 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'christoomey/vim-sort-motion'
 Plug 'christoomey/vim-system-copy'
-Plug 'psf/black', { 'branch': 'stable' }
 " Plug 'inkarkat/vim-ReplaceWithRegister'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'yamatsum/nvim-cursorline'
+Plug 'preservim/vimux'
+Plug 'vim-test/vim-test'
 Plug 'f-person/auto-dark-mode.nvim'
 Plug 'ellisonleao/gruvbox.nvim'
 call plug#end()
@@ -206,11 +213,9 @@ local function get_python_path(workspace)
   end
 
   -- Find and use virtualenv via poetry in workspace directory.
-  -- It might not be in the workspace thus the recursive search
-  local match = vim.fn.globpath(workspace, '**/poetry.lock')
+  local match = vim.fn.glob(path.join(workspace, 'poetry.lock'))
   if match ~= '' then
-    wd = path.dirname(match)
-    local venv = vim.fn.trim(vim.fn.system('cd ' .. wd .. ' && poetry env info -p && cd -'))
+    local venv = vim.fn.trim(vim.fn.system('poetry env info -p'))
     return path.join(venv, 'bin', 'python')
   end
 
@@ -278,30 +283,31 @@ require('nvim-cursorline').setup {
     hl = { underline = true },
   }
 }
+
+require("null-ls").setup({
+  sources = {
+    require("null-ls").builtins.formating.black,
+  },
+})
 EOF
 
 " Telescope key bindings
 nnoremap <C-P> <cmd>lua require('telescope.builtin').git_files()<cr>
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<cr>
+nnoremap <leader>fo <cmd>lua require('telescope.builtin').oldfiles()<cr>
 nnoremap <leader>fw <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader><leader> <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>f<esc> <cmd>lua require('telescope.builtin').resume()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').git_branches()<cr>
+nnoremap <leader>fs <cmd>lua require('telescope.builtin').git_status()<cr>
 nnoremap <leader>fc <cmd>lua require('telescope.builtin').command_history()<cr>
+nnoremap <leader>fd <cmd>lua require('telescope.builtin').git_bcommits()<cr>
 nnoremap gr <cmd>lua require('telescope.builtin').lsp_references()<cr>
 nnoremap gd <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
 
-" Black (uncomment first line to execute black on save)
-" autocmd BufWritePre *.py execute ':Black'
-nnoremap <leader>b :Black<CR>
-
-" Git Gutter
-function! GitStatus()
-  let [a,m,r] = GitGutterGetHunkSummary()
-  return printf('+%d ~%d -%d', a, m, r)
-endfunction
-set updatetime=250
-" uncomment to show the number of diff in status line
-" set statusline+=%{GitStatus()}
+" Formatting with null-ls
+nnoremap <leader>b <cmd>lua vim.lsp.buf.formatting()<cr>
 
 " Fugitive keymaps
 nnoremap <leader>gg :vertical Git<CR>
@@ -309,11 +315,20 @@ nnoremap <leader>gc :vertical Gclog<CR>
 
 " Fugitive Conflict Resolution
 nnoremap <leader>gd :Gvdiff<CR>
-" nnoremap gdh :diffget //2<CR>
-" nnoremap gdl :diffget //3<CR>
 
-" For linter and vim-gutter: place the signs into the columns numbers
-set signcolumn=number
+" Vimux
+nnoremap <Leader>vp :VimuxPromptCommand<CR>
+nnoremap <Leader>vl :VimuxRunLastCommand<CR>
+nnoremap <Leader>vi :VimuxInspectRunner<CR>
+let g:VimuxRunnerType = "window"
+
+" Vim-test
+nnoremap <silent> <leader>tn :TestNearest<CR>
+nnoremap <silent> <leader>tf :TestFile<CR>
+nnoremap <silent> <leader>ta :TestSuite<CR>
+nnoremap <silent> <leader>tl :TestLast<CR>
+let test#python#runner = 'pytest'
+let test#strategy = "vimux"
 
 " Color scheme
 syntax enable
