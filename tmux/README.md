@@ -12,6 +12,7 @@ cp tmux.conf ~/.tmux.conf
 mkdir -p ~/.local/bin
 cp tmux-session-menu ~/.local/bin
 cp tmux-sessionizer ~/.local/bin
+cp is_dark_mode.sh ~/.local/bin
 ```
 ## For remote machines
 
