@@ -13,6 +13,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 return require('packer').startup(function(use)
+  use 'wbthomason/packer.nvim'
   -- My plugins here
   use 'neovim/nvim-lspconfig'
   -- Completion
@@ -27,7 +28,7 @@ return require('packer').startup(function(use)
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'jose-elias-alvarez/null-ls.nvim'
-  use 'airblade/vim-gitgutter'
+  use 'lewis6991/gitsigns.nvim'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-surround'
   use 'tpope/vim-repeat'
@@ -345,6 +346,14 @@ require('lualine').setup {
   tabline = {},
   extensions = {}
 }
+
+require('gitsigns').setup{
+  signcolumn = false,  -- Toggle with `:Gitsigns toggle_signs`
+  numhl      = true, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+}
+
 EOF
 
 " Telescope key bindings
@@ -361,6 +370,18 @@ nnoremap <leader>fc <cmd>lua require('telescope.builtin').command_history()<cr>
 nnoremap <leader>fd <cmd>lua require('telescope.builtin').git_bcommits()<cr>
 nnoremap gr <cmd>lua require('telescope.builtin').lsp_references()<cr>
 nnoremap gd <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
+
+" Gitsigns
+nnoremap <leader>hs :Gitsigns stage_hunk<CR>
+vnoremap <leader>hs :Gitsigns stage_hunk<CR>
+nnoremap <leader>hr :Gitsigns reset_hunk<CR>
+vnoremap <leader>hr :Gitsigns reset_hunk<CR>
+nnoremap <leader>hS <cmd>Gitsigns stage_buffer<CR>
+nnoremap <leader>hu <cmd>Gitsigns undo_stage_hunk<CR>
+nnoremap <leader>hR <cmd>Gitsigns reset_buffer<CR>
+nnoremap <leader>hh <cmd>Gitsigns preview_hunk<CR>
+nnoremap <leader>hn <cmd>Gitsigns next_hunk<CR>
+nnoremap <leader>hp <cmd>Gitsigns prev_hunk<CR>
 
 " Formatting with null-ls
 nnoremap <leader>b <cmd>lua vim.lsp.buf.formatting()<cr>
