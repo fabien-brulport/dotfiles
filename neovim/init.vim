@@ -47,6 +47,10 @@ return require('packer').startup(function(use)
   use 'vim-test/vim-test'
   use 'f-person/auto-dark-mode.nvim'
   use 'ellisonleao/gruvbox.nvim'
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
@@ -114,9 +118,6 @@ set smartindent
 
 " Continue the same indentation over new line
 set autoindent
-
-" Show the position of the cursor
-:set laststatus=0 ruler
 
 " Disable arrow keys
 noremap <Up> <nop>
@@ -309,6 +310,41 @@ require("null-ls").setup({
     require("null-ls").builtins.formatting.black,
   },
 })
+
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'gruvbox',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {},
+    always_divide_middle = true,
+    globalstatus = true,
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {
+      {
+        'filename',
+        path = 1,
+      }
+    },
+    lualine_x = {'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {}
+}
 EOF
 
 " Telescope key bindings
