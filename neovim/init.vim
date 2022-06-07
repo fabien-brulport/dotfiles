@@ -309,39 +309,63 @@ require("null-ls").setup({
   },
 })
 
+
+-- Lualine
+-- TODO: fix dark/light changes
+local background = vim.opt.background:get()
+local colors = require('gruvbox.colors')
+local theme = {
+  light = {
+    normal = {
+        a = { bg = nil, fg = colors.neutral_yellow},
+        b = { bg = nil, fg = colors.neutral_purple },
+        c = { bg = nil, fg = colors.neutral_aqua },
+        y = { bg = nil, fg = colors.dark0 },
+    },
+    insert = { a = {fg = colors.neutral_orange} },
+    visual = { a = {fg = colors.neutral_orange} },
+    replace = { a = {fg = colors.neutral_orange} },
+    command = { a = {fg = colors.neutral_orange} },
+    inactive = { a = {fg = colors.neutral_orange} },
+  },
+  dark = {
+    normal = {
+        a = { bg = nil, fg = colors.neutral_yellow},
+        b = { bg = nil, fg = colors.neutral_purple },
+        c = { bg = nil, fg = colors.neutral_aqua },
+        y = { bg = nil, fg = colors.light1 },
+      },
+      insert = { a = {fg = colors.neutral_orange} },
+      visual = { a = {fg = colors.neutral_orange} },
+      replace = { a = {fg = colors.neutral_orange} },
+      command = { a = {fg = colors.neutral_orange} },
+      inactive = { a = {fg = colors.neutral_orange} },
+  }
+}
+
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'gruvbox',
-    component_separators = { left = '', right = ''},
-    section_separators = { left = '', right = ''},
+    theme = theme[background],
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
     disabled_filetypes = {},
     always_divide_middle = true,
     globalstatus = true,
   },
   sections = {
     lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {
+    lualine_b = {'branch', 'diff'},
+    lualine_c = {'diagnostics'},
+    lualine_x = {
       {
         'filename',
         path = 1,
       }
     },
-    lualine_x = {'filetype'},
-    lualine_y = {'progress'},
-    lualine_z = {'location'}
-  },
-  inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = {'filename'},
-    lualine_x = {'location'},
-    lualine_y = {},
-    lualine_z = {}
-  },
-  tabline = {},
-  extensions = {}
+    lualine_y = {'filetype'},
+    lualine_z = { {'progress', icon='', padding={left=1, right=1}, separator='-'}, 'location'}
+  }
 }
 
 require('gitsigns').setup{
