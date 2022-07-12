@@ -44,8 +44,6 @@ return require('packer').startup(function(use)
 
   use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
   use 'yamatsum/nvim-cursorline'
-  use 'preservim/vimux'
-  use 'vim-test/vim-test'
   use 'f-person/auto-dark-mode.nvim'
   use 'ellisonleao/gruvbox.nvim'
   use 'kyazdani42/nvim-web-devicons'
@@ -359,20 +357,6 @@ nnoremap <leader>gc :vertical Gclog<CR>
 
 " Fugitive Conflict Resolution
 nnoremap <leader>gd :Gvdiff<CR>
-
-" Vimux
-nnoremap <Leader>vp :VimuxPromptCommand<CR>
-nnoremap <Leader>vl :VimuxRunLastCommand<CR>
-nnoremap <Leader>vi :VimuxInspectRunner<CR>
-let g:VimuxRunnerType = "window"
-
-" Vim-test
-nnoremap <silent> <leader>tn :TestNearest<CR>
-nnoremap <silent> <leader>tf :TestFile<CR>
-nnoremap <silent> <leader>ta :TestSuite<CR>
-nnoremap <silent> <leader>tl :TestLast<CR>
-let test#python#runner = 'pytest'
-let test#strategy = "vimux"
 
 lua << EOF
 local function tablelength(T)
