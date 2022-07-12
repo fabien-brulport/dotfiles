@@ -5,11 +5,61 @@ let g:python3_env = "/Users/fbrulport/.config/nvim/venv"
 let g:python3_host_prog = "/Users/fbrulport/.config/nvim/venv/bin/python"
 let g:black_virtualenv = "/Users/fbrulport/.config/nvim/venv"
 
-" Better copy & paste, press F2 before paste
-set pastetoggle=<F2>
+lua << EOF
+local fn = vim.fn
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if fn.empty(fn.glob(install_path)) > 0 then
+  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+end
+
+return require('packer').startup(function(use)
+  use 'wbthomason/packer.nvim'
+  -- My plugins here
+  use 'neovim/nvim-lspconfig'
+  -- Completion
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'L3MON4D3/LuaSnip'
+
+  use 'nvim-lua/plenary.nvim'
+  use 'nvim-telescope/telescope.nvim'
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use 'jose-elias-alvarez/null-ls.nvim'
+  use 'lewis6991/gitsigns.nvim'
+  use 'tpope/vim-fugitive'
+  use 'tpope/vim-surround'
+  use 'tpope/vim-repeat'
+  use 'tpope/vim-commentary'
+  use 'christoomey/vim-sort-motion'
+  use 'christoomey/vim-system-copy'
+  -- Plug 'inkarkat/vim-ReplaceWithRegister'
+  -- Markdown preview: install without yarn or npm
+  use({
+      "iamcco/markdown-preview.nvim",
+      run = function() vim.fn["mkdp#util#install"]() end,
+  })
+
+  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
+  use 'yamatsum/nvim-cursorline'
+  use 'f-person/auto-dark-mode.nvim'
+  use 'ellisonleao/gruvbox.nvim'
+  use 'kyazdani42/nvim-web-devicons'
+  use 'vimpostor/vim-tpipeline'
+  use 'akinsho/toggleterm.nvim'
+
+  -- Automatically set up your configuration after cloning packer.nvim
+  -- Put this at the end after all plugins
+  -- if packer_bootstrap then
+  --   require('packer').sync()
+  -- end
+end)
+EOF
 
 " Use Esc to go in normal mode in terminal
-:tnoremap <Esc> <C-\><C-n>
+tnoremap <Esc> <C-\><C-n>
 
 " Use ctrl+C to copy visual selection into MAC OS clipboard
 vmap <C-c> :w !pbcopy<CR><CR>
@@ -67,9 +117,6 @@ set smartindent
 " Continue the same indentation over new line
 set autoindent
 
-" Show the position of the cursor
-:set laststatus=0 ruler
-
 " Disable arrow keys
 noremap <Up> <nop>
 noremap <Down> <nop>
@@ -91,6 +138,11 @@ set shiftround
 " Convert tab to spaces
 set expandtab
 
+set updatetime=250
+
+" For linter and vim-gutter: place the signs into the columns numbers
+set signcolumn=number
+
 " easier moving of code blocks (do not escape visual mode)
 vnoremap < <gv
 vnoremap > >gv
@@ -98,39 +150,13 @@ vnoremap > >gv
 " reload init.vim
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
+" edit init.vim
+nnoremap <leader>ev :edit $MYVIMRC<CR>
+
 " Mapping for quickfix list
 nnoremap <leader>cn :cnext<CR>
 nnoremap <leader>cp :cprevious<CR>
 nnoremap <leader>cc :cclose<CR>
-
-" Plugin list
-call plug#begin()
-Plug 'neovim/nvim-lspconfig'
-" Completion
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'L3MON4D3/LuaSnip'
-
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-commentary'
-Plug 'christoomey/vim-sort-motion'
-Plug 'christoomey/vim-system-copy'
-Plug 'psf/black', { 'branch': 'stable' }
-" Plug 'inkarkat/vim-ReplaceWithRegister'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'yamatsum/nvim-cursorline'
-Plug 'f-person/auto-dark-mode.nvim'
-Plug 'ellisonleao/gruvbox.nvim'
-call plug#end()
 
 set completeopt=menu,menuone,noselect
 " LUA config
@@ -206,11 +232,9 @@ local function get_python_path(workspace)
   end
 
   -- Find and use virtualenv via poetry in workspace directory.
-  -- It might not be in the workspace thus the recursive search
-  local match = vim.fn.globpath(workspace, '**/poetry.lock')
+  local match = vim.fn.glob(path.join(workspace, 'poetry.lock'))
   if match ~= '' then
-    wd = path.dirname(match)
-    local venv = vim.fn.trim(vim.fn.system('cd ' .. wd .. ' && poetry env info -p && cd -'))
+    local venv = vim.fn.trim(vim.fn.system('poetry env info -p'))
     return path.join(venv, 'bin', 'python')
   end
 
@@ -278,30 +302,54 @@ require('nvim-cursorline').setup {
     hl = { underline = true },
   }
 }
+
+require("null-ls").setup({
+  sources = {
+    require("null-ls").builtins.formatting.black,
+  },
+})
+
+require('gitsigns').setup{
+  signcolumn = false,  -- Toggle with `:Gitsigns toggle_signs`
+  numhl      = true, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+}
+
+require("toggleterm").setup()
+require'nvim-web-devicons'.setup{default=true}
+
 EOF
 
 " Telescope key bindings
 nnoremap <C-P> <cmd>lua require('telescope.builtin').git_files()<cr>
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<cr>
+nnoremap <leader>fo <cmd>lua require('telescope.builtin').oldfiles()<cr>
 nnoremap <leader>fw <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader><leader> <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>f<esc> <cmd>lua require('telescope.builtin').resume()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').git_branches()<cr>
+nnoremap <leader>fs <cmd>lua require('telescope.builtin').git_status()<cr>
 nnoremap <leader>fc <cmd>lua require('telescope.builtin').command_history()<cr>
+nnoremap <leader>fd <cmd>lua require('telescope.builtin').git_bcommits()<cr>
 nnoremap gr <cmd>lua require('telescope.builtin').lsp_references()<cr>
 nnoremap gd <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
 
-" Black (uncomment first line to execute black on save)
-" autocmd BufWritePre *.py execute ':Black'
-nnoremap <leader>b :Black<CR>
+" Gitsigns
+nnoremap <leader>hs :Gitsigns stage_hunk<CR>
+vnoremap <leader>hs :Gitsigns stage_hunk<CR>
+nnoremap <leader>hr :Gitsigns reset_hunk<CR>
+vnoremap <leader>hr :Gitsigns reset_hunk<CR>
+nnoremap <leader>hS <cmd>Gitsigns stage_buffer<CR>
+nnoremap <leader>hu <cmd>Gitsigns undo_stage_hunk<CR>
+nnoremap <leader>hR <cmd>Gitsigns reset_buffer<CR>
+nnoremap <leader>hh <cmd>Gitsigns preview_hunk<CR>
+nnoremap <leader>hn <cmd>Gitsigns next_hunk<CR>
+nnoremap <leader>hp <cmd>Gitsigns prev_hunk<CR>
 
-" Git Gutter
-function! GitStatus()
-  let [a,m,r] = GitGutterGetHunkSummary()
-  return printf('+%d ~%d -%d', a, m, r)
-endfunction
-set updatetime=250
-" uncomment to show the number of diff in status line
-" set statusline+=%{GitStatus()}
+" Formatting with null-ls
+nnoremap <leader>b <cmd>lua vim.lsp.buf.formatting()<cr>
 
 " Fugitive keymaps
 nnoremap <leader>gg :vertical Git<CR>
@@ -309,11 +357,112 @@ nnoremap <leader>gc :vertical Gclog<CR>
 
 " Fugitive Conflict Resolution
 nnoremap <leader>gd :Gvdiff<CR>
-" nnoremap gdh :diffget //2<CR>
-" nnoremap gdl :diffget //3<CR>
 
-" For linter and vim-gutter: place the signs into the columns numbers
-set signcolumn=number
+lua << EOF
+local function tablelength(T)
+   local count = 0
+   for _ in pairs(T) do count = count + 1 end
+   return count
+end
+
+local get_lsp_diagnostic = function(self)
+
+  errors = tablelength(vim.diagnostic.get(0, {severity = vim.diagnostic.severity.ERROR}))
+  warnings = tablelength(vim.diagnostic.get(0, {severity = vim.diagnostic.severity.WARN}))
+  infos = tablelength(vim.diagnostic.get(0, {severity = vim.diagnostic.severity.INFO}))
+  hints = tablelength(vim.diagnostic.get(0, {severity = vim.diagnostic.severity.HINT}))
+  if errors == 0 and warnings == 0 and infos == 0 and hints == 0
+  then
+  return ''
+  end
+
+  local diagnostic = '%#Normal#\\ '
+  if errors ~= 0
+  then
+  diagnostic = diagnostic .. '%#DiagnosticError#' .. string.format(':%s ', errors)
+  end
+
+  if warnings ~= 0
+  then
+  diagnostic = diagnostic .. '%#DiagnosticWarn#' .. string.format(':%s ', warnings)
+  end
+
+  if infos ~= 0
+  then
+  diagnostic = diagnostic .. '%#DiagnosticInfo#' .. string.format(':%s ', infos)
+  end
+
+  if hints ~= 0
+  then
+  diagnostic = diagnostic .. '%#DiagnosticHint#' .. string.format(':%s ', hints)
+  end
+  return diagnostic
+end
+local get_git_status = function()
+  -- use fallback because it doesn't set this variable on the initial `BufEnter`
+  local signs = vim.b.gitsigns_status_dict or {head = '', added = 0, changed = 0, removed = 0}
+  local is_head_empty = signs.head ~= ''
+  if signs.head == ''
+  then
+  return ''
+  end
+
+  local status = '%#Normal#\\ '
+  if signs.added ~= 0
+  then
+  status = status .. '%#diffAdded#' .. string.format('+%s ', signs.added)
+  end
+  if signs.changed ~= 0
+  then
+  status = status .. '%#diffChanged#' .. string.format('~%s ', signs.changed)
+  end
+  if signs.removed ~= 0
+  then
+  status = status .. '%#diffRemoved#' .. string.format('-%s ', signs.removed)
+  end
+  status = status .. '%#Normal# ' .. signs.head
+
+  return status
+end
+
+local set_hl = function(group, options)
+  local bg = options.bg == nil and '' or 'guibg=' .. options.bg
+  local fg = options.fg == nil and '' or 'guifg=' .. options.fg
+  local gui = options.gui == nil and '' or 'gui=' .. options.gui
+
+  vim.cmd(string.format('hi %s %s %s %s', group, bg, fg, gui))
+end
+
+local get_file_name = function()
+  local filename, extension = vim.fn.expand("%:t"), vim.fn.expand("%:e")
+  local icon, color = require('nvim-web-devicons').get_icon_color(filename, extension)
+  set_hl('MyIcon', { fg = color, bg = nil })
+  return '%#Identifier#' .. '\\ ' .. "%#MyIcon#" .. icon ..'%#Identifier#' .. ' %f [%l:%c] %p%%' 
+end
+
+
+function status_line()
+    return table.concat {
+        '%#Normal#',
+        get_lsp_diagnostic(),
+        get_git_status(),
+        ' ',
+        get_file_name(),
+    }
+end
+
+vim.o.statusline = "%!luaeval('status_line()')"
+EOF
+" Change statusline automatically
+" vim-tpipeline
+let g:tpipeline_autoembed = 0
+let g:tpipeline_preservebg = 1
+set noruler
+set laststatus=0
+
+" Toggle term
+nnoremap <C-T> :ToggleTerm direction=float<CR>
+tnoremap <C-T> <C-\><C-n>:ToggleTerm direction=float<CR>
 
 " Color scheme
 syntax enable
