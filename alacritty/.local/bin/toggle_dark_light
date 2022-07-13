@@ -1,0 +1,9 @@
+#!/bin/bash
+
+FOLDER=${HOME}/.config/alacritty
+
+if grep 'colors: \*light' ${FOLDER}/alacritty.yml; then
+    set_dark_theme
+else
+    set_light_theme
+fi

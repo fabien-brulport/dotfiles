@@ -1,0 +1,5 @@
+#!/bin/bash
+
+FOLDER=${HOME}/.config/alacritty
+
+cp ${FOLDER}/alacritty_light.yml ${FOLDER}/alacritty.yml

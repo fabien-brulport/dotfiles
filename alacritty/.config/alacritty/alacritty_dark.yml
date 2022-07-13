@@ -263,7 +263,7 @@ schemes:
   #     - { index: 16, color: '#F2CECF' }
   #     - { index: 17, color: '#3E4058' }
 
-  gruvlight: &gruvlight
+  gruvlight: &light
     # Default colors
     primary:
       # hard contrast: background = '#f9f5d7'
@@ -293,7 +293,7 @@ schemes:
       cyan:    '#427b58'
       white:   '#3c3836'
 
-  gruvdark: &gruvdark
+  gruvdark: &dark
     primary:
       # hard contrast background - '#1d2021'
       background:        &gruvbox_dark_bg '#282828'
@@ -352,7 +352,7 @@ schemes:
       white:   '#928374'
     # indexed_colors: []
 
-colors: *gruvdark
+colors: *dark
 
     # Bright and dim foreground colors
     #
