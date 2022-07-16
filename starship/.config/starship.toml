@@ -53,7 +53,7 @@ $status\
 [╰─](blue)$character"""
 
 
-command_timeout = 300
+command_timeout = 200
 
 [character]
 success_symbol = "[➤](blue)"
@@ -139,4 +139,8 @@ disabled = true
 disabled = true
 [status]
 disabled = true
-
+[python]
+# disabled = true
+pyenv_version_name = true
+[git_status]
+# disabled = true
