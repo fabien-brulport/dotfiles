@@ -84,8 +84,10 @@ stow --verbose neovim
 stow --verbose vim
 ```
 
-## Starship
+## Powerlevel10k
+
+Just for the instant prompt feature !
 
 ```shell
-stow --verbose starship
+stow --verbose powerlevel10k
 ```
