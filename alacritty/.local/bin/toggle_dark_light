@@ -1,9 +1,9 @@
 #!/bin/bash
 
-FOLDER=${HOME}/.config/alacritty
+CONFIG_FOLDER=${HOME}/.config/alacritty
 
-if grep 'colors: \*light' ${FOLDER}/alacritty.yml; then
-    set_dark_theme
+if grep --quiet 'colors: \*light' ${CONFIG_FOLDER}/alacritty.yml; then
+    cp ${CONFIG_FOLDER}/alacritty_dark.yml ${CONFIG_FOLDER}/alacritty.yml
 else
-    set_light_theme
+    cp ${CONFIG_FOLDER}/alacritty_light.yml ${CONFIG_FOLDER}/alacritty.yml
 fi

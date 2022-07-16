@@ -1,5 +1,0 @@
-#!/bin/bash
-
-FOLDER=${HOME}/.config/alacritty
-
-cp ${FOLDER}/alacritty_dark.yml ${FOLDER}/alacritty.yml
