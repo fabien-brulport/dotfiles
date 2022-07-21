@@ -1,3 +1,4 @@
+require "autocommands"
 require "variables"
 require "options"
 require "keymaps"
