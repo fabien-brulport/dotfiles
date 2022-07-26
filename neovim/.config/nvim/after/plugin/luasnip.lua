@@ -23,10 +23,7 @@ vim.keymap.set({ "i", "s" }, "<c-j>", function ()
     end
 end, { silent = true })
 
-ls.snippets = {
-    all = {},
-    python = {
+ls.add_snippets("python", {
         s("im", fmt("import {}", {i(1)})),
         s("fim", fmt("from {} import {}", {i(1), i(2)})),
-    },
-}
+})
