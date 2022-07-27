@@ -46,7 +46,7 @@ local get_git_status = function()
   return ''
   end
 
-  local status = '%#Normal#\\ '
+  local status = '%#Identifier#\\ '
   if signs.added ~= 0
   then
   status = status .. '%#diffAdded#' .. string.format('+%s ', signs.added)
@@ -59,7 +59,7 @@ local get_git_status = function()
   then
   status = status .. '%#diffRemoved#' .. string.format('-%s ', signs.removed)
   end
-  status = status .. '%#Normal# ' .. signs.head .. ' '
+  status = status .. '%#Identifier# ' .. signs.head
 
   return status
 end
