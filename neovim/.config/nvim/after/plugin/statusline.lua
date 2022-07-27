@@ -59,34 +59,16 @@ local get_git_status = function()
   then
   status = status .. '%#diffRemoved#' .. string.format('-%s ', signs.removed)
   end
-  status = status .. '%#Normal# ' .. signs.head
+  status = status .. '%#Normal# ' .. signs.head .. ' '
 
   return status
 end
-
-local set_hl = function(group, options)
-  local bg = options.bg == nil and '' or 'guibg=' .. options.bg
-  local fg = options.fg == nil and '' or 'guifg=' .. options.fg
-  local gui = options.gui == nil and '' or 'gui=' .. options.gui
-
-  vim.cmd(string.format('hi %s %s %s %s', group, bg, fg, gui))
-end
-
-local get_file_name = function()
-  local filename, extension = vim.fn.expand("%:t"), vim.fn.expand("%:e")
-  local icon, color = require('nvim-web-devicons').get_icon_color(filename, extension)
-  set_hl('MyIcon', { fg = color, bg = nil })
-  return '%#Identifier#' .. '\\ %m ' .. "%#MyIcon#" .. icon ..'%#Identifier#' .. ' %f [%l:%c] %p%%' 
-end
-
 
 function status_line()
     return table.concat {
         '%#Normal#',
         get_lsp_diagnostic(),
         get_git_status(),
-        ' ',
-        get_file_name(),
     }
 end
 
