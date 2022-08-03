@@ -20,3 +20,4 @@ o.signcolumn = "number" -- Place the signs into the columns numbers
 o.completeopt = {'menu', 'noselect'} -- Pop up a menu in the command line
 o.laststatus = 0 -- Statusline in tmux
 o.cmdheight = 0
+o.mouse = ""

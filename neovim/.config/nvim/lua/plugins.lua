@@ -69,6 +69,10 @@ return packer.startup(function(use)
   use 'kyazdani42/nvim-web-devicons'
   use 'vimpostor/vim-tpipeline'
   use 'akinsho/toggleterm.nvim'
+  use {
+    "SmiteshP/nvim-navic",
+    requires = "neovim/nvim-lspconfig"
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
