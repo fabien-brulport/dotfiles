@@ -1,4 +1,3 @@
-vim.api.nvim_set_hl(0, "MyWinBar", {default = true, fg = "#ffffff", underline = true})
 if vim.fn.has("nvim-0.8.0") == 1 then
 
     local get_file_name = function()
@@ -18,11 +17,10 @@ if vim.fn.has("nvim-0.8.0") == 1 then
 
     end
 
--- xxx ctermfg=6 guifg=DarkCyan
     function win_bar()
         return table.concat {
+            '%#Underlined#',
             '%=',
-            '%#MyWinBar#',
             get_file_name(),
             get_location(),
         }
