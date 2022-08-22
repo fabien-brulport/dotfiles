@@ -59,8 +59,6 @@ local on_attach = function(client, bufnr)
 
   -- Show diagnostic when hover
   nvim_command('autocmd CursorHold <buffer> lua vim.diagnostic.open_float({focus = false})')
-
-  require('nvim-navic').attach(client, bufnr)
 end
 
 -- Find python venv

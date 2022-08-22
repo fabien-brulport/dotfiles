@@ -6,23 +6,11 @@ if vim.fn.has("nvim-0.8.0") == 1 then
         return '%m ' ..  icon .. ' %f' 
     end
 
-    local get_location = function()
-        local navic = require'nvim-navic'
-        if (navic.is_available())
-        then
-            return " " .. navic.get_location()
-        else
-            return ""
-        end
-
-    end
-
     function win_bar()
         return table.concat {
             '%#Underlined#',
             '%=',
             get_file_name(),
-            get_location(),
         }
     end
 
