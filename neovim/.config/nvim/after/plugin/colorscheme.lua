@@ -1,5 +1,4 @@
 vim.opt.termguicolors = true
-vim.cmd [[
-syntax on
-colorscheme gruvbox
-]]
+vim.cmd("colorscheme gruvbox")
+-- To set the background transparent
+vim.api.nvim_set_hl(0, "Normal", {guibg = NONE, ctermbg = NONE})
