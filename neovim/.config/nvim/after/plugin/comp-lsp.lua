@@ -83,7 +83,9 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 require'lspconfig'.pyright.setup{
     on_attach = on_attach,
     before_init = function(_, config)
-      config.settings.python.pythonPath = get_python_path(config.root_dir)
+      python = get_python_path(config.root_dir)
+      vim.g.pythonLSPpath = python
+      config.settings.python.pythonPath = python
     end,
     flags = {
       debounce_text_changes = 150,

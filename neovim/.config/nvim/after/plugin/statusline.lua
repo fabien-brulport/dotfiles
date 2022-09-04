@@ -10,12 +10,19 @@ local get_lsp_diagnostic = function(self)
   warnings = tablelength(vim.diagnostic.get(0, {severity = vim.diagnostic.severity.WARN}))
   infos = tablelength(vim.diagnostic.get(0, {severity = vim.diagnostic.severity.INFO}))
   hints = tablelength(vim.diagnostic.get(0, {severity = vim.diagnostic.severity.HINT}))
-  if errors == 0 and warnings == 0 and infos == 0 and hints == 0
-  then
-  return ''
-  end
 
   local diagnostic = '%#Normal#\\ '
+  if vim.g.pythonLSPpath then
+      -- extract the venv name from path ".../virtualenvs/prime-dx-OcZtsUAR-py3.9/bin/python"
+      local t = {}
+      for element in string.gmatch(vim.g.pythonLSPpath, '([^/]+)') do
+          table.insert(t, element)
+      end
+      diagnostic = diagnostic .. '%#diffAdded#[LSP] ' .. t[#t-2] .. ' '
+  else
+      return ''
+  end
+
   if errors ~= 0
   then
   diagnostic = diagnostic .. '%#DiagnosticError#' .. string.format(':%s ', errors)
@@ -40,7 +47,6 @@ end
 local get_git_status = function()
   -- use fallback because it doesn't set this variable on the initial `BufEnter`
   local signs = vim.b.gitsigns_status_dict or {head = '', added = 0, changed = 0, removed = 0}
-  local is_head_empty = signs.head ~= ''
   if signs.head == ''
   then
   return ''
