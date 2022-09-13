@@ -4,4 +4,4 @@ require("null-ls").setup({
   },
 })
 
-vim.keymap.set("n", "<leader>b", vim.lsp.buf.formatting)
+vim.keymap.set("n", "<leader>b", vim.lsp.buf.format)
