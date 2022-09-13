@@ -36,17 +36,6 @@ nnoremap <leader><esc> :noh<return><esc>
 
 " Show line number
 set number
-"Automatically change between relative and absolute number
-" :set number relativenumber
-" :augroup numbertoggle
-" :  autocmd!
-" :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-" :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-" :augroup END
-
-" turn hybrid line numbers on
-":set number relativenumber
-":set nu rnu
 
 " Smart indentation (with comments # etc)
 set smartindent
@@ -62,13 +51,6 @@ noremap <Up> <nop>
 noremap <Down> <nop>
 noremap <Left> <nop>
 noremap <Right> <nop>
-
-" Automatically add closing symbol
-"'inoremap ( ()<left>
-"'inoremap ' ''<left>
-"'inoremap " ""<left>
-"'inoremap { {}<left>
-"'inoremap [ []<left>
 
 " Use Tab to show the possible matches in the command line (and switches
 " between the matches)
