@@ -1,0 +1,5 @@
+require "autocommands"
+require "keymaps"
+require "options"
+require "plugins"
+require "variables"
