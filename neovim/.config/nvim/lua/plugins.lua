@@ -63,7 +63,6 @@ return packer.startup(function(use)
   })
 
   use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
-  use 'yamatsum/nvim-cursorline'
   use 'f-person/auto-dark-mode.nvim'
   use 'ellisonleao/gruvbox.nvim'
   use 'kyazdani42/nvim-web-devicons'
