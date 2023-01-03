@@ -51,7 +51,7 @@ window:
 
   # Window opacity as a floating point number from `0.0` to `1.0`.
   # The value `0.0` is completely transparent and `1.0` is opaque.
-  opacity: 0.92
+  # opacity: 0.92
 
   # Window decorations
   #
@@ -604,7 +604,7 @@ alt_send_esc: false
 #  - { mouse: Middle, action: PasteSelection }
 
 key_bindings:
-  - { key: T, mods: Command, command: {program: "toggle_dark_light.py"} }
+  # - { key: T, mods: Command, command: {program: "toggle_dark_light.py"} }
   # see https://github.com/alacritty/alacritty/issues/1359
   - { key: Q, mods: Control, chars: "\x11" }
   - { key: Comma, mods: Command, command: {program: "open", args: ["~/.config/alacritty/alacritty.yml"]}}
