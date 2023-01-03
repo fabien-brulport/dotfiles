@@ -24,9 +24,11 @@ vim.keymap.set("n", "<leader>cn", ":cnext<CR>")
 vim.keymap.set("n", "<leader>cp", ":cprevious<CR>")
 vim.keymap.set("n", "<leader>cc", ":cclose<CR>")
 
--- Window mangement with <C-z>
-vim.keymap.set("n", "<C-Z>", "<Nop>")
-vim.keymap.set("n", "<C-Z>", "<C-W>")
+-- Window mangement
+vim.keymap.set("n", "<C-H>", "<C-W>h")
+vim.keymap.set("n", "<C-J>", "<C-W>j")
+vim.keymap.set("n", "<C-K>", "<C-W>k")
+vim.keymap.set("n", "<C-L>", "<C-W>l")
 
 -- Visual --
 -- Stay in indent mode
