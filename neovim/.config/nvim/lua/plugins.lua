@@ -75,6 +75,10 @@ return packer.startup(function(use)
     requires = { 'nvim-lua/plenary.nvim' },
   }
   use 'stevearc/dressing.nvim'
+  use({
+    "folke/noice.nvim",
+    requires = { "MunifTanjim/nui.nvim" }
+  })
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
