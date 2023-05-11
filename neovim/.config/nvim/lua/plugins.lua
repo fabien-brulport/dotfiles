@@ -69,6 +69,13 @@ return packer.startup(function(use)
   use 'kyazdani42/nvim-web-devicons'
   use 'vimpostor/vim-tpipeline'
   use 'akinsho/toggleterm.nvim'
+  use {
+    'phaazon/mind.nvim',
+    branch='v2.2',
+    requires = { 'nvim-lua/plenary.nvim' },
+  }
+  use 'stevearc/dressing.nvim'
+  use 'MunifTanjim/nui.nvim'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
