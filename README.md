@@ -1,7 +1,9 @@
 # Configuration files
 
+## Prerequisites
 
-The directory `~/.local/bin` must exist.
+- The directory `~/.local/bin` must exist.
+- `stow` must be installed (`brew install stow`)
 
 ## Alacritty
 
@@ -16,14 +18,27 @@ The directory `~/.local/bin` must exist.
   stow --verbose alacritty
   ```
 
-## ZSH and Oh-My-Zsh
+## ZSH
 
-1. Install Zsh and Oh-My-Zsh
-1. Install [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) package in `~/.oh-my-zsh/custom/plugins`
-1. Install [zsh-synthax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) package in `~/.oh-my-zsh/custom/plugins`.
-1. In `~/.zshrc` add the following plugins (zsh-syntax-highlighting needs to be the last one):
+1. Install Zsh
+1. Install [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) package with `brew install zsh-autosuggestions`.
+1. Install [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) package with `brew install zsh-syntax-highlighting`.
+1. Add autocompletion capabilities in `~/.zshrc`:
   ```shell
-  plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+  autoload -Uz compinit
+  # Update compinit cache once a day, to speed up startup time
+  # From https://collectednotes.com/gillchristian/debugging-zsh-init-times
+  if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' ~/.zcompdump) ]; then
+    compinit
+  else
+    compinit -C
+  fi
+  ```
+
+1. In `~/.zshrc` source the 2 previous plugins:
+  ```shell
+  source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
   ```
 1. Install [FZF](https://github.com/junegunn/fzf), a fuzzy finder that can be used in `zsh` and `Vim`. The installer should add this line at the end of the `~./zshrc`
   ```shell
@@ -43,6 +58,14 @@ The directory `~/.local/bin` must exist.
   bindkey "^P" history-beginning-search-backward
   bindkey "^N" history-beginning-search-forward
   ```
+
+## Pyenv
+
+Install `pyenv` with `brew install pyenv`, and add this line in the `~/.zshrc`:
+```shell
+eval "$(pyenv init - zsh)"
+```
+
 ## Tmux
 
 ### For local machine
@@ -78,16 +101,18 @@ pip install neovim black flake8
 stow --verbose neovim
 ```
 
-## Vim
-
-```shell
-stow --verbose vim
-```
-
-## Powerlevel10k
+## Starship
 
 Just for the instant prompt feature !
 
 ```shell
-stow --verbose powerlevel10k
+stow --verbose starship
+```
+
+And add `eval "$(starship init zsh)"` at the end of the `~/.zshrc` file.
+
+## Vim
+
+```shell
+stow --verbose vim
 ```
