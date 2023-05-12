@@ -2,54 +2,29 @@ format = """
 [╭─](blue) \
 $username\
 $hostname\
-$shlvl\
-$kubernetes\
 $directory\
 $git_branch\
 $git_commit\
 $git_state\
+$git_metrics\
 $git_status\
-$hg_branch\
 $docker_context\
 $package\
-$cmake\
-$dart\
-$dotnet\
-$elixir\
-$elm\
-$erlang\
-$golang\
-$helm\
-$java\
-$julia\
-$nim\
-$nodejs\
-$ocaml\
-$perl\
-$php\
-$purescript\
 $python\
-$ruby\
 $rust\
-$swift\
-$terraform\
-$zig\
-$nix_shell\
-$conda\
 $memory_usage\
-$aws\
-$gcloud\
-$openstack\
 $env_var\
-$crystal\
-$cmd_duration\
 $custom\
+$sudo\
+$cmd_duration\
 $line_break\
-$lua\
 $jobs\
 $battery\
 $time\
 $status\
+$os\
+$container\
+$shell\
 [╰─](blue)$character"""
 
 
@@ -58,89 +33,5 @@ command_timeout = 200
 [character]
 success_symbol = "[➤](blue)"
 error_symbol = "[➤](bold red)"
-
-[kubernetes]
-disabled = true
-[hg_branch]
-disabled = true
-[docker_context]
-disabled = true
-[package]
-disabled = true
-[cmake]
-disabled = true
-[dart]
-disabled = true
-[dotnet]
-disabled = true
-[elixir]
-disabled = true
-[elm]
-disabled = true
-[erlang]
-disabled = true
-[golang]
-disabled = true
-[helm]
-disabled = true
-[java]
-disabled = true
-[julia]
-disabled = true
-[nim]
-disabled = true
-[nodejs]
-disabled = true
-[ocaml]
-disabled = true
-[perl]
-disabled = true
-[php]
-disabled = true
-[purescript]
-disabled = true
-[ruby]
-disabled = true
-[rust]
-disabled = true
-[swift]
-disabled = true
-[terraform]
-disabled = true
-[zig]
-disabled = true
-[nix_shell]
-disabled = true
-[conda]
-disabled = true
-[memory_usage]
-disabled = true
-[aws]
-disabled = true
-[gcloud]
-disabled = true
-[openstack]
-disabled = true
-[env_var]
-disabled = true
-[crystal]
-disabled = true
-[cmd_duration]
-disabled = true
-[custom]
-disabled = true
-[lua]
-disabled = true
-[jobs]
-disabled = true
-[battery]
-disabled = true
-[time]
-disabled = true
-[status]
-disabled = true
 [python]
-# disabled = true
 pyenv_version_name = true
-[git_status]
-# disabled = true
