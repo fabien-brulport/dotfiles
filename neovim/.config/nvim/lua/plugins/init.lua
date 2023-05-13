@@ -13,7 +13,6 @@ return {
   {'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
   'nvim-treesitter/nvim-treesitter-textobjects',
-  'jose-elias-alvarez/null-ls.nvim',
   'lewis6991/gitsigns.nvim',
   'tpope/vim-fugitive',
   'tpope/vim-surround',
