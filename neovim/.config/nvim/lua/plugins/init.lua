@@ -30,7 +30,12 @@ return {
   },
   'f-person/auto-dark-mode.nvim',
   'ellisonleao/gruvbox.nvim',
-  'kyazdani42/nvim-web-devicons',
+  {
+    'kyazdani42/nvim-web-devicons',
+    config = function()
+      require("nvim-web-devicons").setup{ default = true }
+    end,
+  },
   'vimpostor/vim-tpipeline',
   'akinsho/toggleterm.nvim',
   'stevearc/dressing.nvim',
