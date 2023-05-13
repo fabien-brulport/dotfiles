@@ -19,8 +19,6 @@ return {
   'tpope/vim-surround',
   'tpope/vim-repeat',
   'tpope/vim-commentary',
-  -- 'christoomey/vim-sort-motion',
-  -- 'christoomey/vim-system-copy',
   -- Markdown preview: install without yarn or npm
   {
     "iamcco/markdown-preview.nvim",
@@ -37,11 +35,6 @@ return {
   'kyazdani42/nvim-web-devicons',
   'vimpostor/vim-tpipeline',
   'akinsho/toggleterm.nvim',
-  {
-    'phaazon/mind.nvim',
-    branch='v2.2',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-  },
   'stevearc/dressing.nvim',
   'MunifTanjim/nui.nvim',
 }
