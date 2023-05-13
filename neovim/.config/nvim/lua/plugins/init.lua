@@ -28,13 +28,17 @@ return {
     init = function() vim.g.mkdp_filetypes = { "markdown" } end,
     ft = { "markdown" }, 
   },
-  'f-person/auto-dark-mode.nvim',
+  {
+    'f-person/auto-dark-mode.nvim',
+    config = function()
+      require("auto-dark-mode").setup{ update_interval = 1000 }
+      require("auto-dark-mode").init()
+    end,
+  },
   'ellisonleao/gruvbox.nvim',
   {
     'kyazdani42/nvim-web-devicons',
-    config = function()
-      require("nvim-web-devicons").setup{ default = true }
-    end,
+    opts = { default = true },
   },
   'vimpostor/vim-tpipeline',
   'akinsho/toggleterm.nvim',
