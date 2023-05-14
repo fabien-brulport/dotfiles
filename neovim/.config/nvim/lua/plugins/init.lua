@@ -10,8 +10,14 @@ return {
 
   'nvim-lua/plenary.nvim',
   'nvim-telescope/telescope.nvim',
-  {'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-  { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+  {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    build = 'make',
+  },
+  {
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
+  },
   'nvim-treesitter/nvim-treesitter-textobjects',
   'lewis6991/gitsigns.nvim',
   'tpope/vim-surround',
@@ -26,16 +32,27 @@ return {
     "iamcco/markdown-preview.nvim",
     build = "cd app && npm install",
     init = function() vim.g.mkdp_filetypes = { "markdown" } end,
-    ft = { "markdown" }, 
+    ft = { "markdown" },
   },
   {
     'f-person/auto-dark-mode.nvim',
     config = function()
-      require("auto-dark-mode").setup{ update_interval = 1000 }
+      require("auto-dark-mode").setup { update_interval = 1000 }
       require("auto-dark-mode").init()
     end,
   },
-  'ellisonleao/gruvbox.nvim',
+  {
+    'ellisonleao/gruvbox.nvim',
+    config = function()
+      require("gruvbox").setup {
+        inverse = true, -- invert background for search, diffs, statuslines and errors
+        invert_signs = false,
+        transparent_mode = true,
+      }
+      vim.opt.termguicolors = true
+      vim.cmd("colorscheme gruvbox")
+    end
+  },
   {
     'kyazdani42/nvim-web-devicons',
     opts = { default = true },
