@@ -1,5 +1,4 @@
 return {
-  'neovim/nvim-lspconfig',
   'nvim-lua/plenary.nvim',
   'tpope/vim-surround',
   'tpope/vim-repeat',
