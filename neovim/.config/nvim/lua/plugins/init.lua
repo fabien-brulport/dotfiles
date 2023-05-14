@@ -9,11 +9,6 @@ return {
   'L3MON4D3/LuaSnip',
 
   'nvim-lua/plenary.nvim',
-  {
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
-  },
-  'nvim-treesitter/nvim-treesitter-textobjects',
   'tpope/vim-surround',
   'tpope/vim-repeat',
   'tpope/vim-commentary',
