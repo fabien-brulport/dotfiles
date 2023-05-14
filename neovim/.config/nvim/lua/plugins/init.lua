@@ -1,12 +1,5 @@
 return {
   'neovim/nvim-lspconfig',
-  -- Completion
-  'hrsh7th/nvim-cmp',
-  'hrsh7th/cmp-nvim-lsp',
-  'hrsh7th/cmp-buffer',
-  'hrsh7th/cmp-path',
-  'saadparwaiz1/cmp_luasnip',
-
   'nvim-lua/plenary.nvim',
   'tpope/vim-surround',
   'tpope/vim-repeat',
@@ -47,7 +40,7 @@ return {
   },
   {
     'vimpostor/vim-tpipeline',
-    init = function ()
+    init = function()
       vim.g.tpipeline_autoembed = 0
       vim.g.tpipeline_preservebg = 1
     end

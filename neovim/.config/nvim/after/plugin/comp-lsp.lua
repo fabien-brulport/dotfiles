@@ -1,40 +1,4 @@
--- Setup nvim-cmp.
-local cmp = require('cmp')
-
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      require('luasnip').lsp_expand(args.body)
-    end,
-  },
-  mapping = {
-    ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item()),
-    ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item()),
-    ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-    ['<C-e>'] = cmp.mapping({
-      i = cmp.mapping.abort(),
-      c = cmp.mapping.close(),
-    }),
-    ['<C-y>'] = cmp.mapping(
-      cmp.mapping.confirm {
-        behavior = cmp.ConfirmBehavior.Insert,
-        select = true,
-      },
-      { "i", "c" }
-   ),
-  },
-  sources = cmp.config.sources({
-    { name = "nvim_lsp", max_item_count = 5 },
-    { name = "path"},
-    { name = "luasnip"},
-    { name = "buffer", max_item_count = 5 },
-  })
-})
-
 -- LSP config
-local nvim_lsp = require('lspconfig')
-local configs = require('lspconfig/configs')
 local nvim_command = vim.api.nvim_command
 local util = require('lspconfig/util')
 local path = util.path
@@ -95,16 +59,11 @@ require('lspconfig').pyright.setup{
   flags = lsp_flags,
   capabilities = capabilities,
 }
-require('lspconfig')['rust_analyzer'].setup{
+require('lspconfig').rust_analyzer.setup{
   on_attach = on_attach,
   flags = lsp_flags,
   capabilities = capabilities,
 }
-
--- do not show the diagnostic at the end of the line
-vim.diagnostic.config({
-  virtual_text = false,
-})
 require'lspconfig'.lua_ls.setup {
   settings = {
     Lua = {
@@ -127,3 +86,8 @@ require'lspconfig'.lua_ls.setup {
     },
   },
 }
+-- do not show the diagnostic at the end of the line
+vim.diagnostic.config({
+  virtual_text = false,
+})
+
