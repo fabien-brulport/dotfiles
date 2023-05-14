@@ -19,7 +19,6 @@ return {
     build = ':TSUpdate',
   },
   'nvim-treesitter/nvim-treesitter-textobjects',
-  'lewis6991/gitsigns.nvim',
   'tpope/vim-surround',
   'tpope/vim-repeat',
   'tpope/vim-commentary',
