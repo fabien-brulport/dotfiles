@@ -46,7 +46,13 @@ return {
     'kyazdani42/nvim-web-devicons',
     opts = { default = true },
   },
-  'vimpostor/vim-tpipeline',
+  {
+    'vimpostor/vim-tpipeline',
+    init = function ()
+      vim.g.tpipeline_autoembed = 0
+      vim.g.tpipeline_preservebg = 1
+    end
+  },
   'akinsho/toggleterm.nvim',
   'stevearc/dressing.nvim',
   'MunifTanjim/nui.nvim',
