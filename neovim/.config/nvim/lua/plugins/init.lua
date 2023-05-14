@@ -9,11 +9,6 @@ return {
   'L3MON4D3/LuaSnip',
 
   'nvim-lua/plenary.nvim',
-  'nvim-telescope/telescope.nvim',
-  {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    build = 'make',
-  },
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
