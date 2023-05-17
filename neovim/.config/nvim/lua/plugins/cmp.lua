@@ -33,10 +33,10 @@ return {
         ),
       },
       sources = cmp.config.sources({
-        { name = "nvim_lsp", max_item_count = 5 },
+        { name = "nvim_lsp" },
         { name = "path" },
         { name = "luasnip" },
-        { name = "buffer",   max_item_count = 5 },
+        { name = "buffer" },
       })
     })
   end
