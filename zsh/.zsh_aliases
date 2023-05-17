@@ -1,0 +1,14 @@
+alias l="ls -alth"
+
+# Alias coming from the oh-my-zsh git plugin
+alias ga="git add"
+alias gd="git diff"
+alias gp="git push"
+alias gst="git status"
+alias gco="git checkout"
+alias gcmsg="git commit -m"
+alias gb="git branch"
+alias grb="git rebase"
+alias gcb="git checkout -b"
+alias glog="git log --oneline --decorate --graph"
+alias gpsup="git push --set-upstream origin $(git_current_branch)"

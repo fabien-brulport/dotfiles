@@ -49,7 +49,7 @@
   export -U PATH=$PATH
   export PATH=<my custom path>:$PATH
   ```
-1. To use ctrl+ P/N to navigate in history, add in `~./zshrc`:
+1. To use ctrl+ P/N to navigate in history, add in `~/.zshrc`:
   ```shell
   autoload -U up-line-or-beginning-search
   autoload -U down-line-or-beginning-search
@@ -57,6 +57,26 @@
   zle -N down-line-or-beginning-search
   bindkey "^P" history-beginning-search-backward
   bindkey "^N" history-beginning-search-forward
+  ```
+1. Add the aliases with `stow zsh` and in `~/.zshrc`:
+  ```shell
+  # functions from oh-my-zsh
+  function __git_prompt_git() {
+    GIT_OPTIONAL_LOCKS=0 command git "$@"
+  }
+  function git_current_branch() {
+    local ref
+    ref=$(__git_prompt_git symbolic-ref --quiet HEAD 2> /dev/null)
+    local ret=$?
+    if [[ $ret != 0 ]]; then
+      [[ $ret == 128 ]] && return  # no git repo.
+      ref=$(__git_prompt_git rev-parse --short HEAD 2> /dev/null) || return
+    fi
+    echo ${ref#refs/heads/}
+  }
+
+  # Load aliases
+  source ~/.zsh_aliases
   ```
 
 ## Pyenv
