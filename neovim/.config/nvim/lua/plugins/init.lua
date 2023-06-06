@@ -22,15 +22,16 @@ return {
     end,
   },
   {
-    'ellisonleao/gruvbox.nvim',
+    "catppuccin/nvim",
+    name = "catppuccin",
     config = function()
-      require("gruvbox").setup {
-        inverse = true, -- invert background for search, diffs, statuslines and errors
-        invert_signs = false,
-        transparent_mode = true,
-      }
-      vim.opt.termguicolors = true
-      vim.cmd("colorscheme gruvbox")
+      require("catppuccin").setup({
+        background = {
+          light = "latte",
+          dark = "frappe",
+        },
+      })
+      vim.cmd.colorscheme "catppuccin"
     end
   },
   {
