@@ -5,17 +5,16 @@
 - The directory `~/.local/bin` must exist.
 - `stow` must be installed (`brew install stow`)
 
-## Alacritty
+## Wezterm
 
 - Download and install `JetBrainsMono Nerd Font` (to get some nice icons) from [here](https://www.nerdfonts.com/).
-- Create a config directory for Alacritty (if not `stow` will create a simlink for the directory, but then Alacritty has trouble
-  to detect changes).
+- Install wezterm with `brew`:
   ```shell
-  mkdir ~/.config/alacritty
-  ````
+  brew install --cask wezterm
+  ```
 - Install the config with `stow`
   ```shell
-  stow --verbose alacritty
+  stow --verbose wezterm
   ```
 
 ## ZSH

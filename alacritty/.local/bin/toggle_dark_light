@@ -1,9 +1,0 @@
-#!/bin/bash
-
-CONFIG_FOLDER=${HOME}/.config/alacritty
-
-if grep --quiet 'colors: \*light' ${CONFIG_FOLDER}/alacritty.yml; then
-    cp ${CONFIG_FOLDER}/alacritty_dark.yml ${CONFIG_FOLDER}/alacritty.yml
-else
-    cp ${CONFIG_FOLDER}/alacritty_light.yml ${CONFIG_FOLDER}/alacritty.yml
-fi
