@@ -32,7 +32,5 @@ return {
     vim.keymap.set("n", "<leader>fs", builtin.git_status)
     vim.keymap.set("n", "<leader>fc", builtin.command_history)
     vim.keymap.set("n", "<leader>fd", builtin.git_bcommits)
-    vim.keymap.set("n", "gr", builtin.lsp_references)
-    vim.keymap.set("n", "gd", builtin.lsp_definitions)
   end
 }
