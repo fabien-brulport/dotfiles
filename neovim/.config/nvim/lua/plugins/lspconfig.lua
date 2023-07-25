@@ -38,7 +38,9 @@ return {
       -- Find and use virtualenv via poetry in workspace directory.
       local match = vim.fn.glob(path.join(workspace, 'poetry.lock'))
       if match ~= '' then
-        local venv = vim.fn.trim(vim.fn.system('poetry env info -p'))
+        -- Get the last line returned by `poetry env info -p`, to ignore the potential warnings
+        local lines = vim.split(vim.fn.system('poetry env info -p'), '\n', {plaine=true, trimempty=true})
+        local venv = vim.fn.trim(lines[#lines])
         if venv ~= '' then
           return path.join(venv, 'bin', 'python')
         end
