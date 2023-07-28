@@ -2,7 +2,6 @@ return {
   'neovim/nvim-lspconfig',
   dependencies = { 'hrsh7th/cmp-nvim-lsp' },
   config = function()
-
     -- Find python venv
     local function get_python_path(workspace)
       local util = require('lspconfig/util')
@@ -16,7 +15,7 @@ return {
       local match = vim.fn.glob(path.join(workspace, 'poetry.lock'))
       if match ~= '' then
         -- Get the last line returned by `poetry env info -p`, to ignore the potential warnings
-        local lines = vim.split(vim.fn.system('poetry env info -p'), '\n', {plaine=true, trimempty=true})
+        local lines = vim.split(vim.fn.system('poetry env info -p'), '\n', { plaine = true, trimempty = true })
         local venv = vim.fn.trim(lines[#lines])
         if venv ~= '' then
           return path.join(venv, 'bin', 'python')
@@ -35,7 +34,13 @@ return {
         config.settings.python.pythonPath = python
       end,
     }
-    lspconfig.rust_analyzer.setup {}
+    lspconfig.rust_analyzer.setup {
+      settings = {
+        ['rust-analyzer'] = {
+          cargo = { buildScripts = {enable = false} }
+        }
+      }
+    }
     lspconfig.lua_ls.setup {
       settings = {
         Lua = {
@@ -81,7 +86,7 @@ return {
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
         -- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+        -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
         -- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
         -- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
         -- vim.keymap.set('n', '<space>wl', function()
