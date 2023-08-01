@@ -6,7 +6,7 @@ end
 
 -- LSP section, empty if no LSP attached
 local get_lsp_diagnostic = function()
-  if next(vim.lsp.get_active_clients()) == nil then
+  if next(vim.lsp.get_active_clients({ bufnr = vim.fn.bufnr() })) == nil then
     return ''
   end
   local errors = tablelength(vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR }))
@@ -15,10 +15,10 @@ local get_lsp_diagnostic = function()
   local hints = tablelength(vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT }))
 
   local diagnostic = '%#Normal#\\ %#diffAdded#[LSP]'
-  if vim.g.pythonLSPpath then
+  if vim.b.pythonLSPpath then
     -- extract the venv name from path ".../virtualenvs/prime-dx-OcZtsUAR-py3.9/bin/python"
     local t = {}
-    for element in string.gmatch(vim.g.pythonLSPpath, '([^/]+)') do
+    for element in string.gmatch(vim.b.pythonLSPpath, '([^/]+)') do
       table.insert(t, element)
     end
     diagnostic = string.format('%s %s', diagnostic, t[#t - 2])

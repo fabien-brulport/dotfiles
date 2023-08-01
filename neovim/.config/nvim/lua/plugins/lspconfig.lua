@@ -44,7 +44,7 @@ return {
     lspconfig.pyright.setup {
       before_init = function(_, config)
         local python = get_python_path(config.root_dir)
-        vim.g.pythonLSPpath = python
+        vim.b.pythonLSPpath = python
         config.settings.python.pythonPath = python
       end,
     }
