@@ -89,12 +89,12 @@ return {
       opts = opts or {}
       local pickers = require "telescope.pickers"
       pickers.new(opts, {
-        prompt_title = "colors",
+        prompt_title = "Poetry environments",
         finder = finders.new_table {
           results = poetry_locks
         },
         sorter = conf.generic_sorter(opts),
-        attach_mappings = function(prompt_bufnr, map)
+        attach_mappings = function(prompt_bufnr, _)
           actions.select_default:replace(function()
             actions.close(prompt_bufnr)
             local selection = action_state.get_selected_entry()
@@ -107,7 +107,7 @@ return {
         end,
       }):find()
     end
-    vim.api.nvim_create_user_command('SelectEnv', select_env, {})
+    vim.api.nvim_create_user_command('SelectPoetryEnv', select_env, {})
 
     -- Global mappings.
     -- See `:help vim.diagnostic.*` for documentation on any of the below functions
