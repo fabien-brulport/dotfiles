@@ -3,6 +3,25 @@ return {
   dependencies = { 'hrsh7th/cmp-nvim-lsp' },
   config = function()
     -- Find python venv
+    local function get_python_path_from_poetry(workspace)
+      local util = require('lspconfig/util')
+      local path = util.path
+      local match = vim.fn.glob(path.join(workspace, 'poetry.lock'))
+      if match == '' then
+        return nil
+      end
+      -- Get the last line returned by `poetry env info -p`, to ignore the potential warnings
+      local lines = vim.split(vim.fn.system(string.format('cd %s && poetry env info -p && cd -', workspace)), '\n',
+        { plaine = true, trimempty = true })
+      if not next(lines) then
+        return nil
+      end
+      local venv = vim.fn.trim(lines[#lines])
+      if venv ~= '' then
+        return path.join(venv, 'bin', 'python')
+      end
+    end
+
     local function get_python_path(workspace)
       local util = require('lspconfig/util')
       local path = util.path
@@ -12,14 +31,9 @@ return {
       end
 
       -- Find and use virtualenv via poetry in workspace directory.
-      local match = vim.fn.glob(path.join(workspace, 'poetry.lock'))
-      if match ~= '' then
-        -- Get the last line returned by `poetry env info -p`, to ignore the potential warnings
-        local lines = vim.split(vim.fn.system('poetry env info -p'), '\n', { plaine = true, trimempty = true })
-        local venv = vim.fn.trim(lines[#lines])
-        if venv ~= '' then
-          return path.join(venv, 'bin', 'python')
-        end
+      local python_path = get_python_path_from_poetry(workspace)
+      if python_path ~= nil then
+        return python_path
       end
 
       -- Fallback to system Python.
@@ -37,7 +51,7 @@ return {
     lspconfig.rust_analyzer.setup {
       settings = {
         ['rust-analyzer'] = {
-          cargo = { buildScripts = {enable = false} }
+          cargo = { buildScripts = { enable = false } }
         }
       }
     }
@@ -61,8 +75,39 @@ return {
             enable = false,
           },
         },
-      },
+      }
     }
+
+    -- Create a command to select a Python env base on the lock file
+    local select_env = function(opts)
+      local poetry_locks = vim.fn.globpath('.', '**/poetry.lock', 0, 1)
+      local finders = require "telescope.finders"
+      local conf = require("telescope.config").values
+      local actions = require "telescope.actions"
+      local action_state = require "telescope.actions.state"
+
+      opts = opts or {}
+      local pickers = require "telescope.pickers"
+      pickers.new(opts, {
+        prompt_title = "colors",
+        finder = finders.new_table {
+          results = poetry_locks
+        },
+        sorter = conf.generic_sorter(opts),
+        attach_mappings = function(prompt_bufnr, map)
+          actions.select_default:replace(function()
+            actions.close(prompt_bufnr)
+            local selection = action_state.get_selected_entry()
+            local directory = vim.fn.fnamemodify(selection[1], ":p:h")
+            local python_path = get_python_path_from_poetry(directory)
+            vim.cmd({ cmd = 'PyrightSetPythonPath', args = { python_path } })
+            vim.g.pythonLSPpath = python_path
+          end)
+          return true
+        end,
+      }):find()
+    end
+    vim.api.nvim_create_user_command('SelectEnv', select_env, {})
 
     -- Global mappings.
     -- See `:help vim.diagnostic.*` for documentation on any of the below functions
