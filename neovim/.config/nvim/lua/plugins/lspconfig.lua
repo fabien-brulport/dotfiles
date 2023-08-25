@@ -51,7 +51,10 @@ return {
     lspconfig.rust_analyzer.setup {
       settings = {
         ['rust-analyzer'] = {
-          cargo = { buildScripts = { enable = false } }
+          cargo = {
+            -- This is needed because PyO3 does not work well with pyenv
+            extraEnv = { PYO3_PYTHON = "/usr/bin/python3" }
+          }
         }
       }
     }
