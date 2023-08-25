@@ -41,7 +41,7 @@ local get_lsp_diagnostic = function()
 
   if hints ~= 0
   then
-    diagnostic = string.format('%s %%#DiagnosticHint#:%s', diagnostic, hints)
+    diagnostic = string.format('%s %%#DiagnosticHint#:%s', diagnostic, hints)
   end
   return string.format('%s %%#Normal#', diagnostic)
 end
