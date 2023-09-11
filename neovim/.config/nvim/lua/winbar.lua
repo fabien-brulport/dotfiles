@@ -7,6 +7,7 @@ end
 function win_bar()
   return table.concat {
     '%#Underlined#',
+    require('nvim-navic').get_location(),
     '%=',
     get_file_name(),
   }
