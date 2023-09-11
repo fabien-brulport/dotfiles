@@ -49,9 +49,12 @@ return {
       end,
       on_attach = function(client, bufnr)
         require("nvim-navic").attach(client, bufnr)
-      end
+      end,
     }
     lspconfig.rust_analyzer.setup {
+      on_attach = function(client, bufnr)
+        require("nvim-navic").attach(client, bufnr)
+      end,
       settings = {
         ['rust-analyzer'] = {
           cargo = {
