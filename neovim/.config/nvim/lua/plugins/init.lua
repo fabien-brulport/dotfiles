@@ -49,4 +49,5 @@ return {
   'stevearc/dressing.nvim',
   'MunifTanjim/nui.nvim',
   'SmiteshP/nvim-navic',
+  'towolf/vim-helm',
 }
