@@ -10,6 +10,11 @@ vim.keymap.set("", "<Space>", "<Nop>")
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- Always center the search result
+vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "N", "Nzz")
+vim.keymap.set("n", "*", "*zz")
+
 -- Use leader key + esc to clear the highlight
 vim.keymap.set("n", "<leader><esc>", ":noh<return><esc>")
 
