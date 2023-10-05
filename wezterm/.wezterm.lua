@@ -18,22 +18,20 @@ config.font = wezterm.font_with_fallback({
   { family = 'JetBrainsMono Nerd Font', weight = 'Medium' },
 })
 config.font_size = 13
-config.line_height = 1.05
-config.use_cap_height_to_scale_fallback_fonts = true
 
 -- Window config
 config.hide_tab_bar_if_only_one_tab = true
 config.native_macos_fullscreen_mode = true
 
 -- Set color scheme dynamically, depending on the Light/Dark mode of MacOS
-function get_appearance()
+local function get_appearance()
   if wezterm.gui then
     return wezterm.gui.get_appearance()
   end
   return 'Dark'
 end
 
-function scheme_for_appearance(appearance)
+local function scheme_for_appearance(appearance)
   if appearance:find 'Dark' then
     return 'Catppuccin Frappe'
   else
