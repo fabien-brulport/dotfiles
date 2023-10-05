@@ -48,4 +48,6 @@ return {
   'akinsho/toggleterm.nvim',
   'stevearc/dressing.nvim',
   'MunifTanjim/nui.nvim',
+  'SmiteshP/nvim-navic',
+  'towolf/vim-helm',
 }

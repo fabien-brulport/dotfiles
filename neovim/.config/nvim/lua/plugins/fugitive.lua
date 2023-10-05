@@ -1,5 +1,6 @@
 return {
   'tpope/vim-fugitive',
+  lazy=false,
   keys = {
     { "<leader>gg", "<cmd>vertical Git<cr>", desc = "Show git status" },
     { "<leader>gl", "<cmd>vertical Gclog<cr>", desc = "Show git log for the current file" },

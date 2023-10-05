@@ -47,8 +47,14 @@ return {
         vim.b.pythonLSPpath = python
         config.settings.python.pythonPath = python
       end,
+      on_attach = function(client, bufnr)
+        require("nvim-navic").attach(client, bufnr)
+      end,
     }
     lspconfig.rust_analyzer.setup {
+      on_attach = function(client, bufnr)
+        require("nvim-navic").attach(client, bufnr)
+      end,
       settings = {
         ['rust-analyzer'] = {
           cargo = {
