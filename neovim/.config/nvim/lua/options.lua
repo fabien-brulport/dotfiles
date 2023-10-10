@@ -16,7 +16,8 @@ o.shiftwidth = 4                                  -- Make a indentation equals t
 o.shiftround = true                               -- Indentation to the closest tab
 o.expandtab = true                                -- Convert tab to spaces
 o.updatetime = 250                                -- Faster completion
-o.signcolumn = "number"                           -- Place the signs into the columns numbers
+-- o.signcolumn = "number"                        -- Place the signs into the columns numbers (does not look compatible with statuscolumn: TODO)
+o.statuscolumn = '%s%=%{v:relnum?v:relnum:v:lnum}│'
 o.completeopt = { 'menu', 'menuone', 'noselect' } -- Pop up a menu in the command line
 o.laststatus = 0                                  -- Statusline in tmux
 o.mouse = ""
