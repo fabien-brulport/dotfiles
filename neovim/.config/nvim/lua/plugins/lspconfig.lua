@@ -51,6 +51,7 @@ return {
         require("nvim-navic").attach(client, bufnr)
       end,
     }
+    lspconfig.ruff_lsp.setup{}
     lspconfig.rust_analyzer.setup {
       on_attach = function(client, bufnr)
         require("nvim-navic").attach(client, bufnr)
