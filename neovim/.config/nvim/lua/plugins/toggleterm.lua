@@ -15,7 +15,20 @@ return {
     },
   },
   keys = {
-    { "<C-T>", "<cmd>ToggleTerm<cr>", desc = "Open a floating terminal" },
-    { "<leader>r", "<cmd>w<cr><cmd>2TermExec cmd='rustc % -o /tmp/rust-toggleterm.out && /tmp/rust-toggleterm.out' direction=vertical size=100<cr>", desc = "Save current Rust buffer, compile it and run the bin." },
+    {
+      "<C-T>",
+      "<cmd>ToggleTerm<cr>",
+      desc = "Open a floating terminal"
+    },
+    {
+      "<leader>gp",
+      "<cmd>3TermExec cmd='git push && exit' direction=horizontal<cr>",
+      desc = "Run git push and exit terminal if the latter is successful."
+    },
+    {
+      "<leader>r",
+      "<cmd>w<cr><cmd>2TermExec cmd='rustc % -o /tmp/rust-toggleterm.out && /tmp/rust-toggleterm.out' direction=vertical size=100<cr>",
+      desc = "Save current Rust buffer, compile it and run the bin."
+    },
   },
 }
