@@ -35,6 +35,9 @@ vim.keymap.set("n", "<C-J>", "<C-W>j")
 vim.keymap.set("n", "<C-K>", "<C-W>k")
 vim.keymap.set("n", "<C-L>", "<C-W>l")
 
+-- Formatting
+vim.keymap.set("n", "<leader>b", vim.lsp.buf.format)
+
 -- Visual --
 -- Stay in indent mode
 vim.keymap.set("v", "<", "<gv")
@@ -43,6 +46,6 @@ vim.keymap.set("v", ">", ">gv")
 -- Use ctrl+C to copy visual selection into MAC OS clipboard
 vim.keymap.set("v", "<C-c>", ":w !pbcopy<CR><CR>")
 
--- Terminal -- 
+-- Terminal --
 -- Use Esc to go in normal mode in terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
