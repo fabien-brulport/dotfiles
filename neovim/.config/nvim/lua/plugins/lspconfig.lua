@@ -51,19 +51,13 @@ return {
         require("nvim-navic").attach(client, bufnr)
       end,
     }
-    lspconfig.ruff_lsp.setup{}
+    lspconfig.ruff_lsp.setup {}
+    lspconfig.yamlls.setup {}
+    lspconfig.tsserver.setup {}
     lspconfig.rust_analyzer.setup {
       on_attach = function(client, bufnr)
         require("nvim-navic").attach(client, bufnr)
       end,
-      settings = {
-        ['rust-analyzer'] = {
-          cargo = {
-            -- This is needed because PyO3 does not work well with pyenv
-            extraEnv = { PYO3_PYTHON = "/usr/bin/python3" }
-          }
-        }
-      }
     }
     lspconfig.lua_ls.setup {
       settings = {
