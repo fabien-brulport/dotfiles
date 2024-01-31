@@ -78,13 +78,6 @@
   source ~/.zsh_aliases
   ```
 
-## Pyenv
-
-Install `pyenv` with `brew install pyenv`, and add this line in the `~/.zshrc`:
-```shell
-eval "$(pyenv init - zsh)"
-```
-
 ## Tmux
 
 ### For local machine
