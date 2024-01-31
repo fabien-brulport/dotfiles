@@ -21,5 +21,3 @@ command_timeout = 200
 [character]
 success_symbol = "[➤](blue)"
 error_symbol = "[➤](bold red)"
-[python]
-pyenv_version_name = true
