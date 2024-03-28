@@ -87,6 +87,12 @@ Following command will install the conf and put some useful sh scripts in `~/.lo
 stow --verbose tmux
 ```
 
+Then install the [extracto](https://github.com/laktak/extrakto) plugin:
+
+```shell
+git clone -b python-posix git@github.com:laktak/extrakto.git ~/.local/share/tmux/extrakto
+```
+
 ### For remote machines
 
 ```shell
