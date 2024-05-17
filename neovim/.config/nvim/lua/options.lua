@@ -1,5 +1,6 @@
 local o = vim.opt
 
+o.spell = true
 o.showcmd = true                                    -- Show the command in the last line of the screen
 o.backspace = { 'indent', 'eol', 'start' }          -- Normal behavior for backspace
 o.swapfile = false                                  -- Do not create swap files
