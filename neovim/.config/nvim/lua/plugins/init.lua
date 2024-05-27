@@ -2,7 +2,6 @@ return {
   'nvim-lua/plenary.nvim',
   'tpope/vim-surround',
   'tpope/vim-repeat',
-  'tpope/vim-commentary',
   -- Markdown preview: install without yarn or npm
   {
     "iamcco/markdown-preview.nvim",
