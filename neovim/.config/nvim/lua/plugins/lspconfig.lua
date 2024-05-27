@@ -37,7 +37,7 @@ return {
       end
 
       -- Fallback to system Python.
-      return exepath('python3') or exepath('python') or 'python'
+      return vim.fn.exepath('python3') or vim.fn.exepath('python') or 'python'
     end
 
     local lspconfig = require('lspconfig')
@@ -50,13 +50,32 @@ return {
       on_attach = function(client, bufnr)
         require("nvim-navic").attach(client, bufnr)
       end,
+      settings = {
+        pyright = {
+          -- Using Ruff's import organizer
+          disableOrganizeImports = true,
+        },
+        python = {
+          analysis = {
+            -- Ignore all files for analysis to exclusively use Ruff for linting
+            ignore = { '*' },
+          },
+        },
+      },
     }
-    lspconfig.ruff_lsp.setup {}
+    lspconfig.ruff.setup {
+      on_attach = function(client, bufnr)
+        -- Disable hover in favor of Pyright
+        client.server_capabilities.hoverProvider = false
+      end
+    }
     lspconfig.yamlls.setup {}
     lspconfig.tsserver.setup {}
     lspconfig.rust_analyzer.setup {
       on_attach = function(client, bufnr)
         require("nvim-navic").attach(client, bufnr)
+        -- Activate inlay hints
+        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
       end,
     }
     lspconfig.lua_ls.setup {
