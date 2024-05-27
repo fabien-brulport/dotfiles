@@ -102,16 +102,38 @@ scp tmux_remote/.tmux.conf <ip>:~/.tmux.conf
 ## NeoVim
 
 
-### Create a Python 3 venv
-Create a venv with `neovim`, `black` and `flake8`.
+### Install language servers
 
-```
-mkdir -p ~/.local/share/virtualenvs
-cd ~/.local/share/virtualenvs
-python -m venv neovimvenv
-source neovimvenv/bin/activate
-pip install neovim black flake8
-```
+- install `pyright`
+  ```
+  npm install -g pyright
+  ```
+
+- install `ruff`
+  ```
+  pipx install ruff
+  ```
+
+- install `rust-analyzer`
+  ```
+  curl -L https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-apple-darwin.gz | gunzip -c - > ~/.local/bin/rust-analyzer
+  chmod +x ~/.local/bin/rust-analyzer
+  ```
+
+- install `luals`
+  ```
+  brew install lua-language-server
+  ```
+
+- install `yamlls`
+  ```
+  npm install -g yaml-language-server
+  ```
+
+- install `tsserver`
+  ```
+  npm install -g typescript-language-server
+  ```
 
 ### Config
 
@@ -120,8 +142,6 @@ stow --verbose neovim
 ```
 
 ## Starship
-
-Just for the instant prompt feature !
 
 ```shell
 stow --verbose starship
