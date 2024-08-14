@@ -24,7 +24,7 @@ o.laststatus = 0                                    -- Statusline in tmux
 o.mouse = ""
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "lua",
+  pattern = { "lua", "r" },
   callback = function()
     o.tabstop = 2
     o.softtabstop = 2
