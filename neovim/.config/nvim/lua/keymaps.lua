@@ -14,6 +14,11 @@ vim.g.maplocalleader = " "
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("n", "*", "*zz")
+vim.keymap.set(
+  'c', '<CR>',
+  function() return vim.fn.getcmdtype() == '/' and '<CR>zz' or '<CR>' end,
+  { expr = true }
+)
 
 -- Use leader key + esc to clear the highlight
 vim.keymap.set("n", "<leader><esc>", ":noh<return><esc>")
