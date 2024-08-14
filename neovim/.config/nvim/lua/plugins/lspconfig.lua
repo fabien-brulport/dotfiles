@@ -71,11 +71,13 @@ return {
     }
     lspconfig.yamlls.setup {}
     lspconfig.tsserver.setup {}
+    lspconfig.r_language_server.setup{}
+
     lspconfig.rust_analyzer.setup {
       on_attach = function(client, bufnr)
         require("nvim-navic").attach(client, bufnr)
         -- Activate inlay hints
-        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+        vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
       end,
     }
     lspconfig.lua_ls.setup {
