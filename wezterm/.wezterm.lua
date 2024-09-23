@@ -21,7 +21,11 @@ config.font_size = 13
 
 -- Window config
 config.hide_tab_bar_if_only_one_tab = true
-config.native_macos_fullscreen_mode = true
+config.native_macos_fullscreen_mode = false
+
+-- Blur and opacity
+config.window_background_opacity = 0.93
+config.macos_window_background_blur = 30
 
 -- Set color scheme dynamically, depending on the Light/Dark mode of MacOS
 local function get_appearance()
