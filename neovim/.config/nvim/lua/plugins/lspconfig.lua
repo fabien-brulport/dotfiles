@@ -70,7 +70,7 @@ return {
       end
     }
     lspconfig.yamlls.setup {}
-    lspconfig.tsserver.setup {}
+    lspconfig.ts_ls.setup {}
     lspconfig.r_language_server.setup{}
 
     lspconfig.rust_analyzer.setup {
