@@ -71,14 +71,20 @@ return {
     }
     lspconfig.yamlls.setup {}
     lspconfig.ts_ls.setup {}
-    lspconfig.r_language_server.setup{}
-
+    lspconfig.r_language_server.setup {}
     lspconfig.rust_analyzer.setup {
       on_attach = function(client, bufnr)
         require("nvim-navic").attach(client, bufnr)
         -- Activate inlay hints
         vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
       end,
+      settings = {
+        ["rust-analyzer"] = {
+          cargo = {
+            allFeatures = true,
+          },
+        },
+      },
     }
     lspconfig.lua_ls.setup {
       settings = {
