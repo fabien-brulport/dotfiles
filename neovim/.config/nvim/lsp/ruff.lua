@@ -8,9 +8,9 @@ return {
     '.git',
   },
   single_file_support = true,
-  -- on_attach = function(client, bufnr)
-  --   -- Disable hover in favor of Pyright
-  --   client.server_capabilities.hoverProvider = false
-  -- end
+  on_attach = function(client, _)
+    -- Disable hover in favor of Pyright
+    client.server_capabilities.hoverProvider = false
+  end,
   settings = {},
 }

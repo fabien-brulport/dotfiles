@@ -22,7 +22,6 @@ o.statuscolumn = '%s%=%{v:relnum?v:relnum:v:lnum} ' -- Custom statuscolumn
 o.completeopt = { 'menu', 'menuone', 'noselect' }   -- Pop up a menu in the command line
 o.laststatus = 0                                    -- Statusline in tmux
 o.mouse = ""                                        -- Disable mouse
-o.winborder = 'rounded'                             -- Rounded borders for all windows
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "lua", "r" },

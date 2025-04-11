@@ -1,15 +1,13 @@
 local function get_python_path(workspace)
-  local util = require('lspconfig/util')
-  local path = util.path
   -- Use activated virtualenv.
   if vim.env.VIRTUAL_ENV then
-    return 'virtualenv', path.join(vim.env.VIRTUAL_ENV, 'bin', 'python')
+    return 'virtualenv', vim.fs.joinpath(vim.env.VIRTUAL_ENV, 'bin', 'python')
   end
 
   -- Use .venv if it exists.
-  local match = vim.fn.glob(path.join(workspace, '.venv'))
+  local match = vim.fn.glob(vim.fs.joinpath(workspace, '.venv'))
   if match ~= '' then
-    return '.venv', path.join(workspace, '.venv', 'bin', 'python')
+    return '.venv', vim.fs.joinpath(workspace, '.venv', 'bin', 'python')
   end
 
   -- Fallback to system Python.
