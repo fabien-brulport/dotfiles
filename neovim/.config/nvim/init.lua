@@ -28,3 +28,14 @@ require("lazy").setup("plugins",
 )
 require "statusline"
 require "winbar"
+vim.lsp.enable({
+  -- lua
+  "lua_ls",
+  -- python
+  "pyright",
+  "ruff",
+  -- rust
+  "rust_analyzer",
+  -- yaml
+  "yamlls",
+})
