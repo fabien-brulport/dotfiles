@@ -43,6 +43,19 @@ vim.keymap.set("n", "<C-L>", "<C-W>l")
 -- Formatting
 vim.keymap.set("n", "<leader>b", vim.lsp.buf.format)
 
+-- Diagnostic
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+vim.keymap.set('n', '<space>dd', vim.diagnostic.open_float)
+vim.keymap.set('n', '<space>dp', function() vim.diagnostic.jump({ count = -1, float = true }) end)
+vim.keymap.set('n', '<space>dn', function() vim.diagnostic.jump({ count = 1, float = true }) end)
+vim.keymap.set('n', '<space>dq', vim.diagnostic.setqflist)
+vim.diagnostic.config({
+  virtual_text = { current_line = true },
+  -- Note: the 2 following lines are not working
+  float = false,
+  jump = { float = false },
+})
+
 -- Visual --
 -- Stay in indent mode
 vim.keymap.set("v", "<", "<gv")
