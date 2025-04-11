@@ -30,7 +30,6 @@ end
 M.get_winbar = function()
   return table.concat {
     indicator(),
-    require('nvim-navic').get_location(),
     '%=',
     get_file_name(),
   }
