@@ -13,7 +13,12 @@ return {
     -- C-n/C-p or Up/Down: Select next/previous item
     -- C-e: Hide menu
     -- C-k: Toggle signature help (if signature.enabled = true)
-    keymap = { preset = 'default' },
+    keymap = {
+      preset = 'default',
+      -- disable keymaps from the preset
+      ['<Tab>'] = false,
+      ['<S-Tab>'] = false,
+    },
 
     appearance = {
       -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
