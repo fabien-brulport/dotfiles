@@ -18,6 +18,11 @@ local get_lsp_diagnostic = function()
   if vim.b.pythonLSPname then
     diagnostic = string.format('%s %s', diagnostic, vim.b.pythonLSPname)
   end
+  if vim.lsp.inline_completion.is_enabled() then
+    diagnostic = string.format('%s %%#diffAdded#󰏫', diagnostic)
+  else
+    diagnostic = string.format('%s %%#DiagnosticError#󰏯', diagnostic)
+  end
 
   if errors ~= 0
   then
