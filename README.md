@@ -17,6 +17,17 @@
   stow --verbose wezterm
   ```
 
+## Karabiner
+
+- Install Karabiner with `brew`:
+  ```shell
+  brew install --cask karabiner-elements
+  ```
+- Install the config with `stow`
+  ```shell
+  stow --verbose karabiner
+  ```
+
 ## ZSH
 
 1. Install Zsh
