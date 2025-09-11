@@ -93,8 +93,16 @@ return {
   },
   settings = {
     telemetry = {
-      telemetryLevel = 'all',
+      telemetryLevel = 'off',
     },
+  },
+  filetypes = {
+    'python',
+    'rust',
+    'yaml',
+    'lua',
+    'markdown',
+    'bash'
   },
   on_attach = function(client, bufnr)
     vim.api.nvim_buf_create_user_command(bufnr, 'LspCopilotSignIn', function()
@@ -112,8 +120,7 @@ return {
       vim.lsp.inline_completion.enable(not vim.lsp.inline_completion.is_enabled())
     end, {
       desc = 'Toggle inline completion suggestion',
-    }
-    )
+    })
     -- Use tab to accept inline_completion
     vim.keymap.set('i', '<Tab>', function()
       if not vim.lsp.inline_completion.get() then
