@@ -112,24 +112,30 @@ return {
       sign_out(bufnr, client)
     end, { desc = 'Sign out Copilot with GitHub' })
 
-    -- Enable inline_completion by default
-    vim.lsp.inline_completion.enable()
+    if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion, bufnr) then
+      -- Enable inline_completion by default
+      vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
+      -- Toggle inline_completion with <Shift-Tab>
+      vim.keymap.set('n', '<S-Tab>', function()
+        vim.lsp.inline_completion.enable(not vim.lsp.inline_completion.is_enabled())
+      end, {
+        desc = 'Toggle inline completion suggestion',
+      })
 
-    -- Toggle inline_completion with <Shift-Tab>
-    vim.keymap.set('n', '<S-Tab>', function()
-      vim.lsp.inline_completion.enable(not vim.lsp.inline_completion.is_enabled())
-    end, {
-      desc = 'Toggle inline completion suggestion',
-    })
-    -- Use tab to accept inline_completion
-    vim.keymap.set('i', '<Tab>', function()
-      if not vim.lsp.inline_completion.get() then
-        return '<Tab>'
-      end
-    end, {
-      expr = true,
-      replace_keycodes = true,
-      desc = 'Get the current inline completion',
-    })
+      vim.keymap.set(
+        'i',
+        '<C-F>',
+        vim.lsp.inline_completion.get,
+        { desc = 'LSP: accept inline completion', buffer = bufnr }
+      )
+      vim.keymap.set(
+        'i',
+        '<C-G>',
+        vim.lsp.inline_completion.select,
+        { desc = 'LSP: switch inline completion', buffer = bufnr }
+      )
+    end
+
+    vim.lsp.inline_completion.enable()
   end,
 }
