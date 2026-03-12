@@ -34,7 +34,7 @@ vim.lsp.enable({
   -- lua
   "lua_ls",
   -- python
-  "basedpyright",
+  "ty",
   "ruff",
   -- rust
   "rust_analyzer",

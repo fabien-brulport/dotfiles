@@ -113,8 +113,8 @@ return {
     end, { desc = 'Sign out Copilot with GitHub' })
 
     if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion, bufnr) then
-      -- Enable inline_completion by default
-      vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
+      -- Disable inline_completion by default
+      vim.lsp.inline_completion.enable(false, { bufnr = bufnr })
       -- Toggle inline_completion with <Shift-Tab>
       vim.keymap.set('n', '<S-Tab>', function()
         vim.lsp.inline_completion.enable(not vim.lsp.inline_completion.is_enabled())
