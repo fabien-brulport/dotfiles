@@ -2,12 +2,7 @@ return {
   "folke/sidekick.nvim",
   opts = {
     nes = {
-      debounce = 100,
-    },
-    cli = {
-      mux = {
-        enabled = true,
-      },
+      debounce = 200,
     },
     tools = {
       cursor = { cmd = { "cursor-agent" } },

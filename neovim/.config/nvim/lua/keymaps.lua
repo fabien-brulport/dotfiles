@@ -73,6 +73,7 @@ vim.keymap.set("n", "<leader>gp", function()
   -- Create a new buffer and window
   local term_buf = vim.api.nvim_create_buf(true, false)
   vim.api.nvim_open_win(term_buf, false, { split = "below", height = 15, width = vim.o.columns })
+  vim.api.nvim_buf_set_lines(term_buf, -1, -1, false, {"Running git push..."})
   vim.fn.jobstart("git push", {
     stdout_buffered = true,
     stderr_buffered = true,
