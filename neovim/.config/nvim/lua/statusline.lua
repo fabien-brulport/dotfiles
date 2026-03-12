@@ -6,18 +6,28 @@ end
 
 -- LSP section, empty if no LSP attached
 local get_lsp_diagnostic = function()
-  if next(vim.lsp.get_clients({ bufnr = vim.fn.bufnr() })) == nil then
+  local buf_clients = vim.lsp.get_clients({ bufnr = vim.fn.bufnr() })
+  if next(buf_clients) == nil then
     return ''
   end
+  -- List LSP attached and check if they are ready or not
+  local lsp_parts = {}
+  for _, client in ipairs(buf_clients) do
+    local has_progress = client.progress and next(client.progress.pending) ~= nil
+    if has_progress then
+      table.insert(lsp_parts, string.format('%%#DiagnosticWarn#%s', client.name))
+    else
+      table.insert(lsp_parts, string.format('%%#diffAdded#%s', client.name))
+    end
+  end
+  local lsp_list = table.concat(lsp_parts, ' %#Normal#| ')
+
   local errors = tablelength(vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR }))
   local warnings = tablelength(vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN }))
   local infos = tablelength(vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO }))
   local hints = tablelength(vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT }))
 
-  local diagnostic = '%#Normal#\\ %#diffAdded#[LSP]'
-  if vim.b.pythonLSPname then
-    diagnostic = string.format('%s %s', diagnostic, vim.b.pythonLSPname)
-  end
+  local diagnostic = string.format('%%#Normal#\\ [LSP: %s%%#Normal#]', lsp_list)
   if vim.lsp.inline_completion.is_enabled() then
     diagnostic = string.format('%s %%#diffAdded#󰏫', diagnostic)
   else
