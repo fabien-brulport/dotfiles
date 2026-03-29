@@ -22,6 +22,7 @@ o.statuscolumn = '%s%=%{v:relnum?v:relnum:v:lnum} ' -- Custom statuscolumn
 o.completeopt = { 'menu', 'menuone', 'noselect' }   -- Pop up a menu in the command line
 o.laststatus = 0                                    -- Statusline in tmux
 o.mouse = ""                                        -- Disable mouse
+o.diffopt = "internal,filler,closeoff,algorithm:patience,indent-heuristic,inline:char,linematch:40" -- Better diff
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "lua", "r" },

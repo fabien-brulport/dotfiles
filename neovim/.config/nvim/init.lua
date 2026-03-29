@@ -29,10 +29,12 @@ require("lazy").setup("plugins",
 require "statusline"
 require "winbar"
 vim.lsp.enable({
+  -- copilot
+  "copilot",
   -- lua
   "lua_ls",
   -- python
-  "basedpyright",
+  "ty",
   "ruff",
   -- rust
   "rust_analyzer",
