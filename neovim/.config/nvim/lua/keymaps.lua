@@ -65,8 +65,8 @@ vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("v", "<C-c>", ":w !pbcopy<CR><CR>")
 
 -- Terminal --
--- Use Esc to go in normal mode in terminal
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+-- Use ctrl+L to go in normal mode in terminal
+vim.keymap.set("t", "<C-l>", "<C-\\><C-n>")
 
 -- Git push in a new buffer and window, close on success
 vim.keymap.set("n", "<leader>gp", function()

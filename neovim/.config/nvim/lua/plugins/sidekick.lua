@@ -6,6 +6,7 @@ return {
     },
     tools = {
       cursor = { cmd = { "cursor-agent" } },
+      claude = { cmd = { "claude" } },
     },
   },
   keys = {
@@ -75,7 +76,7 @@ return {
     -- Example of a keybinding to open Claude directly
     {
       "<leader>ac",
-      function() require("sidekick.cli").toggle({ name = "cursor", focus = true }) end,
+      function() require("sidekick.cli").toggle({ name = "claude", focus = true }) end,
       desc = "Sidekick Toggle Claude",
     },
   },
