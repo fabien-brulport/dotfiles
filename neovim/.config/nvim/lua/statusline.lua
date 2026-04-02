@@ -10,7 +10,7 @@ local get_lsp_diagnostic = function()
   if next(buf_clients) == nil then
     return ''
   end
-  -- List LSP attached and check if they are ready or notclients
+  -- List LSP attached and check if they are ready or not
   local lsp_parts = {}
   for _, client in ipairs(buf_clients) do
     local has_progress = client.progress and next(client.progress.pending) ~= nil
