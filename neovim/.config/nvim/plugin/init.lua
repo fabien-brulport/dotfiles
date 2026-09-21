@@ -1,30 +1,15 @@
-require "autocommands"
-require "keymaps"
-require "options"
-require "variables"
-
-vim.api.nvim_create_autocmd('PackChanged', {
-  callback = function(ev)
-    local name, kind = ev.data.spec.name, ev.data.kind
-    if name == 'markdown-preview' and (kind == 'install' or kind == 'update') then
-      vim.fn["mkdp#util#install"]()
-    end
-  end
-})
 vim.pack.add({
   'https://github.com/nvim-lua/plenary.nvim',
   'https://github.com/tpope/vim-surround',
   'https://github.com/tpope/vim-repeat',
   'https://github.com/f-person/auto-dark-mode.nvim',
   { src = 'https://github.com/catppuccin/nvim', name = 'catppuccin' },
-  'https://github.com/nvim-tree/nvim-web-devicons',
-  'https://github.com/vimpostor/vim-tpipeline',
-  'https://github.com/stevearc/dressing.nvim',
-  'https://github.com/MunifTanjim/nui.nvim',
-  'https://github.com/stevearc/oil.nvim',
-  'https://github.com/stevearc/quicker.nvim',
-  'https://github.com/esmuellert/codediff.nvim',
-  'https://github.com/iamcco/markdown-preview.nvim',
+  'https://github.com/vim-tree/nvim-web-devicons',
+  'https://github.com/impostor/vim-tpipeline',
+  'https://github.com/tevearc/dressing.nvim',
+  'https://github.com/unifTanjim/nui.nvim',
+  'stevearc/oil.nvim',
+  'stevearc/quicker.nvim',
 })
 -- Auto dark mode setup
 require("auto-dark-mode").setup { update_interval = 1000 }
@@ -71,18 +56,21 @@ require("quicker").setup({
   },
 })
 
-require "statusline"
-require "winbar"
-vim.lsp.enable({
-  -- copilot
-  -- "copilot",
-  -- lua
-  "lua_ls",
-  -- python
-  "ty",
-  "ruff",
-  -- rust
-  "rust_analyzer",
-  -- yaml
-  "yamlls",
-})
+-- return {
+-- Markdown preview: install without yarn or npm
+-- {
+--   "iamcco/markdown-preview.nvim",
+--   build = function() vim.fn["mkdp#util#install"]() end,
+-- },
+-- {
+--   "iamcco/markdown-preview.nvim",
+--   build = "cd app && npm install",
+--   init = function() vim.g.mkdp_filetypes = { "markdown" } end,
+--   ft = { "markdown" },
+-- },
+-- {
+--   'MeanderingProgrammer/render-markdown.nvim',
+--   opts = {},
+--   dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
+-- },
+-- }
