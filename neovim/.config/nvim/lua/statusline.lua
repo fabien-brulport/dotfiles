@@ -28,11 +28,6 @@ local get_lsp_diagnostic = function()
   local hints = tablelength(vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT }))
 
   local diagnostic = string.format('%%#Normal#\\ [LSP: %s%%#Normal#]', lsp_list)
-  if vim.lsp.inline_completion.is_enabled() then
-    diagnostic = string.format('%s %%#diffAdded#󰏫', diagnostic)
-  else
-    diagnostic = string.format('%s %%#DiagnosticError#󰏯', diagnostic)
-  end
 
   if errors ~= 0
   then

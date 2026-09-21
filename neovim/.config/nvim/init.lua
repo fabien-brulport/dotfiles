@@ -74,8 +74,6 @@ require("quicker").setup({
 require "statusline"
 require "winbar"
 vim.lsp.enable({
-  -- copilot
-  -- "copilot",
   -- lua
   "lua_ls",
   -- python
