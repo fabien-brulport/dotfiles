@@ -35,10 +35,10 @@ vim.keymap.set("n", "<leader>cp", ":cprevious<CR>")
 vim.keymap.set("n", "<leader>cc", ":cclose<CR>")
 
 -- Window mangement
-vim.keymap.set("n", "<C-H>", "<C-W>h")
-vim.keymap.set("n", "<C-J>", "<C-W>j")
-vim.keymap.set("n", "<C-K>", "<C-W>k")
-vim.keymap.set("n", "<C-L>", "<C-W>l")
+vim.keymap.set({ "n", "t" }, "<C-H>", "<C-W>h")
+vim.keymap.set({ "n", "t" }, "<C-J>", "<C-W>j")
+vim.keymap.set({ "n", "t" }, "<C-K>", "<C-W>k")
+vim.keymap.set({ "n", "t" }, "<C-L>", "<C-W>l")
 
 -- Formatting
 vim.keymap.set("n", "<leader>b", vim.lsp.buf.format)
@@ -67,3 +67,35 @@ vim.keymap.set("v", "<C-c>", ":w !pbcopy<CR><CR>")
 -- Terminal --
 -- Use Esc to go in normal mode in terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+
+-- Git push in a new buffer and window, close on success
+vim.keymap.set("n", "<leader>gp", function()
+  -- Create a new buffer and window
+  local term_buf = vim.api.nvim_create_buf(true, false)
+  vim.api.nvim_open_win(term_buf, false, { split = "below", height = 15, width = vim.o.columns })
+  vim.api.nvim_buf_set_lines(term_buf, -1, -1, false, {"Running git push..."})
+  vim.fn.jobstart("git push", {
+    stdout_buffered = true,
+    stderr_buffered = true,
+    on_stdout = function(_, data, _)
+      if data then
+        vim.api.nvim_buf_set_lines(term_buf, -1, -1, false, data)
+      end
+    end,
+    on_stderr = function(_, data, _)
+      if data then
+        vim.api.nvim_buf_set_lines(term_buf, -1, -1, false, data)
+      end
+    end,
+    on_exit = function(_, exit_code, _)
+      if exit_code == 0 then
+        -- Wait for 500ms and close the terminal buffer if git push succeeded
+        vim.defer_fn(function()
+          if vim.api.nvim_buf_is_valid(term_buf) then
+            vim.api.nvim_buf_delete(term_buf, { force = true })
+          end
+        end, 500)
+      end
+    end,
+  })
+end, { desc = "Run git push in a background job an show the result in a new buffer, close on success" })
